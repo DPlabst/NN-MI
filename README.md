@@ -1,9 +1,10 @@
-## NN-MI: Neural Network Mutual Information Rate Computation for Channels with Memory
+## NN-MI: Neural Network Achievable Information Rate Computation for Channels with Memory
 
 
-This repository provides the corresponding program code for the submission "Neural Network Equalizers and Successive Interference Cancellation for Bandlimited Channels with a Nonlinearity" to the *IEEE Transactions on Communications*. A copy of the submission is stored in the repository with filename *[arXiv soon]*. <!--(A pre-print is available [here](https://arxiv.org/abs/2004.12148)).-->
+This repository provides the corresponding program code for the submission "Neural Network Equalizers and Successive Interference Cancellation for Bandlimited Channels with a Nonlinearity" to the *IEEE Transactions on Communications*. A pre-print is available [on arXiv soon](https://arxiv.org).
 
-The provided functions allow computing mutual information rates for channels with memory. 
+The provided functions compute achievable information rates via successive interference cancellation (SIC). 
+
 
 *[documentation under construction]*
 
@@ -22,7 +23,7 @@ The corresponding BibTeX entry is:
 
     @online{plabst2023nnmi,
     author = {Daniel Plabst},
-    title={NN-MI: Neural Network Mutual Information Rate Computation for Channels with Memory}, 
+    title={NN-MI: Neural Network Achievable Information Rate Computation for Channels with Memory}, 
     year = {2023},
     url={https://github.com/DPlabst/NN-MI},
     urldate = {2024-XX-XX}
@@ -33,15 +34,31 @@ The corresponding BibTeX entry is:
 
 ## Example 1: Fiber-Channel with Square-Law Photodetector
 
-The implementation supports the oversampled model [1,2] where the memoryless nonlinearity is applied element-wise:
+Considers the oversampled discrete model [1,2] with a memoryless non-linearity
 
-$$\mathbf{Y} = |\mathbf{H} \mathbf{X}|^{2} + \mathbf{N}$$
+$$
+\begin{align}
+\mathbf{Y} = |\mathbf{H} \cdot \mathbf{X}|^{2} + \mathbf{N}
+\end{align}
+$$
 
-and
+where
 
 - $\mathbf{H}$ is a Toeplitz matrix constructed from the transmit DAC and fiber channel
-- $\mathbf{X}$ are iid discrete channel inputs and
+- $\mathbf{X}$ is a vector with discrete channel inputs and
 - $\mathbf{N}$ is (real) white Gaussian noise with unit variance.
+
+Eq. (1) models a short-range fiber-optic communication system with square-law detection, i.e. the optical-to-electrical conversion is performed by a single photodiode. The noise models thermal noise from photodetection.
+
+As an example, the file [example1_nnmi_v1.0.py](example1_nnmi_v1.0.py) computes achievable information rates via SIC for $L_\text{SSMF} = 10\,\mathrm{km}$ standard single-mode fiber (SSMF) operated in the C-band. The receiver performs square-law detection. 
+
+The considered channel matrix $\mathbf{H}$ is a (subsampled) Toeplitz matrix constructed from two-fold oversampling of the combined response of the transmit DAC and the SSMF. The transmit DAC is operated at a symbol rate of $B = 35\,\mathrm{GBd}$ and performs sinc pulseshaping. The SSMF introduces chromatic dispersion which leads to intersymbol interference (ISI). 
+
+The channel inputs $\mathbf{X}$ are u.i.i.d. 4-ASK symbols with constellation $\mathcal{X} = \{\pm 1, \pm 3\}$. We use SIC with $S=4$ stages, where every stage has a recurrent neural network estimate a-posteriori probabilities for mismatched decoding. The whole setup is listed in [[Tab. IV], on arXiv soon](https://arxiv.org). 
+
+The figure below plots the SIC stage rates for stages $s=1,\ldots,4$ (blue) and the average rate across all stages (red).
+
+![4-ASK](nnmi/numerical/4-ASK_L10km_SINC_35GBd.png)
 
 ## Example 2: Single-Carrier Communication System with Nonlinear Transmit Power Amplifier
 
@@ -69,27 +86,20 @@ It is straightforward to extend the code to other noise distributions, or memory
 -->
 
 ## Usage
-The file `nnmi_v1.0.py` computes SIC rates for $L_\text{SSMF} = 10\,\mathrm{km}$ standard single-mode fiber (SSMF) operated in the C-band with a square-law detector at the receiver. This setup is described under **Example 1** and accompanying document *[arXiv soon]*. 
 
-The channel matrix $\mathbf{H}$ is a (subsampled) Toeplitz matrix constructed from two-fold oversampling the combined response of the transmit DAC and the SSMF. The transmit DAC is operated at a symbol rate of $B = 35\,GBd$ and performs sinc pulseshaping. The SSMF introduces chromatic dispersion which leads to intersymbol interference. 
+One may execute the example providing command line parameters:
 
-The channel inputs $\mathbf{X}$ are u.i.i.d. 4-ASK symbols with constellation $\mathcal{X} = \{\pm 1, \pm 3\}$. We use a SIC-RNN receiver with $S=4$ stages with the settings in [Tab. IV] in the file *[arXiv soon]*.
+    python3 example1_nnmi_v1.0.py -m 4-ASK -S 4
 
-Running
-
-    python3 nnmi_v1.0.py -m 4-ASK -S 4
-
-computes SIC rates for the **Example 1** under mismatched decoding. The stage rates for stages $s=1,\ldots,4$ (blue) and the average rate across all stages $I_{q,\text{SIC}}(\mathbf{X};\mathbf{Y})$ (red) are displayed in the plot below. 
-
-![4-ASK](nnmi/numerical/4-ASK_L30km_SINC_35GBd.png)
+which computes achievable rates for $S=4$ SIC stages and 4-ASK modulation. 
 
 Further options can be found by executing: 
 
-    python3 nnmi_v1.0.py --help
+    python3 example1_nnmi_v1.0.py --help
 
 which outputs: 
 
-    NN-MI: Neural Network Mutual Information Computation for Channels with Memory
+    NN-MI: Neural Network Achievable Information Computation for Channels with Memory
 
     options:
     -h, --help                              show this help message and exit
@@ -101,13 +111,13 @@ which outputs:
 
 [1] D. Plabst et al., "Achievable Rates for Short-Reach Fiber-Optic Channels With Direct Detection," in *Journal of Lightwave Technology*, vol. 40, no. 12, pp. 3602-3613, 15 June15, 2022, doi: 10.1109/JLT.2022.3149574. [[Link]](https://ieeexplore.ieee.org/document/9707620)
 
-[2] T. Prinz, D. Plabst, T. Wiegart, S. Calabrò, N. Hanik and G. Kramer, "Successive Interference Cancellation for Bandlimited Channels with Direct Detection," in *IEEE Transactions on Communications*, doi: 10.1109/TCOMM.2023.3337254. [[Link]](https://ieeexplore.ieee.org/document/10328977)
+[2] T. Prinz, D. Plabst, T. Wiegart, S. Calabrò, N. Hanik and G. Kramer, "Successive Interference Cancellation for Bandlimited Channels with Direct Detection," in *IEEE Transactions on Communications*, to appear. [[Link]](https://ieeexplore.ieee.org/document/10328977)
 
  ---
 
 ### Software Requirements 
 
-The code runs with *Python 3.9.6* and the following dependencies `requirements.txt`:  
+The code runs under *Python >= 3.9.6* and dependencies `requirements.txt`:  
 
     asciichartpy==1.5.25
     matplotlib==3.7.2

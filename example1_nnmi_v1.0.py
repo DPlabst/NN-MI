@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # **************************************************
-# * NN-MI: Neural Network Mutual Information Computation for Channels with Memory
+# * NN-MI: Neural Network Achievable Information Computation for Channels with Memory
 # * Daniel Plabst
 # * Institute for Communications Engineering (LNT)
 # * Technical University of Munich, Germany

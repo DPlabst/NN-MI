@@ -126,7 +126,7 @@ def plot_results(Ptx_dB_vec, S_SIC, SER_mat, I_qXY_mat, I_qXY, SER):
 def init_cliparser():
     formatter = lambda prog: argparse.RawTextHelpFormatter(prog, max_help_position=60)
     parser = argparse.ArgumentParser(
-        description="NN-MI: Neural Network Mutual Information Computation for Channels with Memory",
+        description="NN-MI: Neural Network Achievable Information Computation for Channels with Memory",
         formatter_class=formatter,
     )
     parser.add_argument(
@@ -157,7 +157,7 @@ def init_cliparser():
 def printinfo():
     print("**************************************************")
     print(
-        " * NN-MI: Neural Network Mutual Information Computation for Channels with Memory"
+        " * NN-MI: Neural Network Achievable Information Computation for Channels with Memory"
     )
     print(" * Daniel Plabst")
     print(" * Institute for Communications Engineering (LNT)")
