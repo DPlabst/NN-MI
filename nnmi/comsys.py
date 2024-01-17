@@ -379,6 +379,9 @@ class SICstage:
         # Append output dimension
         self.szNNvecpM = np.append(szNNvec, self.chan.M)
 
+        # Approximate RNN memory
+        self.NtildeRNN = int(np.floor(self.szNNvecpM[0] / self.N_os) + self.T_rnn - 1)
+
         # Reset demapper
         self.demapper = rnn.RNNRX(
             dev,
@@ -565,7 +568,7 @@ class SICstage:
             # * -------- SIC: Convert to composite real and shift indices ---------
             # Convert x -> [xreal, ximag] to composite real and shift indices
             # The receiver has yx_composite [yreal, yimag, xreal, ximag],
-            # therefore we must shift the indices of x by len([yreal,yimag]) = 2 * self.N_os * n:  
+            # therefore we must shift the indices of x by len([yreal,yimag]) = 2 * self.N_os * n:
             if self.chan.f_cplx_mod == 0:  # Real
                 # Shift indices by N_os * n * (f_cplx_AWGN+1)
                 idx_x_sic_r = idx_x_sic + self.N_os * n * 2
@@ -811,7 +814,7 @@ class SICstage:
             + np.array_str(IqXY_train_vec[plt_range], precision=3, suppress_small=True)
         )
 
-    # Generate filename for saving results 
+    # Generate filename for saving results
     def gen_filename(
         self,
     ):
@@ -823,9 +826,13 @@ class SICstage:
         if len(self.S_SIC_vec_1idx) == self.S_SIC:
             indiv_stage_str = ""
         else:
-            indiv_stage_str = fsep + np.array2string(
-                self.S_SIC_vec_1idx, separator="|"
-            ).replace(" ", "")
+            indiv_stage_str = (
+                fsep
+                + "s="
+                + np.array2string(self.S_SIC_vec_1idx, separator="_")
+                .replace("[", "")
+                .replace("]", "")
+            )
 
         # Construct filename from settings
         filename = (
@@ -833,12 +840,15 @@ class SICstage:
             + fsep
             + self.chan.modf_str  # Modulation
             + fsep
-            + np.array2string(self.nVec_eff, separator="|").replace(
-                " ", ""
-            )  # Plot effective layer size vector
+            + np.array2string(self.nVec_eff, separator="_")
+            .replace("[", "")
+            .replace("]", "")  # Plot effective layer size vector
             + fsep
             + "lr="
             + "{:.0E}".format(self.lr)  # Learning rate
+            + fsep
+            + "Nt="
+            + str(self.NtildeRNN)  # Approximate RNN memory
             + fsep
             + "Tr="
             + str(self.T_rnn)  # Number of inputs sequential inputs
@@ -848,7 +858,7 @@ class SICstage:
             + fsep
             + "S="
             + str(self.S_SIC)  # Number of SIC stages
-            + indiv_stage_str  # Optional: When considering individual stages
+            + indiv_stage_str  # Optional: When considering an individual stage
             + fsep
             + "Ls="
             + str(self.L_SIC)  # Number of SIC symbols

@@ -163,5 +163,5 @@ def printinfo():
     print(" * Institute for Communications Engineering (LNT)")
     print(" * Technical University of Munich, Germany")
     print(" * http://ice.cit.tum.de/")
-    print(" * Public version: v1.0 2024-01-16")
+    print(" * Public version: v1.0 2024-01-17")
     print("**************************************************")

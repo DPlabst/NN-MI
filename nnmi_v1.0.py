@@ -7,7 +7,7 @@
 # * Institute for Communications Engineering (LNT)
 # * Technical University of Munich, Germany
 # * http://ice.cit.tum.de/
-# * Public version: v1.0 2024-01-16
+# * Public version: v1.0 2024-01-17
 # **************************************************
 
 vstr = "v1.0"  # Version
@@ -74,7 +74,6 @@ R_sym = 35 * 1e9  # Symbol rate in [Bd] or [Symb/s]
 # * -------  Successive Interference Cancellation  -------
 # Select L_SIC "closest" previously decoded symbols for SIC
 L_SIC = 16
-
 
 
 # * -------  Memoryless Nonlinearity -------------
