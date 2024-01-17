@@ -50,9 +50,9 @@ where
 
 Eq. (1) models a short-range fiber-optic communication system with square-law detection, i.e., the optical-to-electrical conversion is performed by a single photodiode. The noise models thermal noise from photodetection.
 
-As an example, the file [example1_nnmi_v1.0.py](NN-MI/example1_nnmi_v1.0.py) computes achievable information rates via SIC for $L_\text{SSMF} = 10\,\mathrm{km}$ standard single-mode fiber (SSMF) operated in the C-band. The receiver performs square-law detection. 
+As an example, the file [example1_nnmi_v1.0.py](NN-MI/example1_nnmi_v1.0.py) computes achievable information rates via SIC for $L_\text{SSMF} = 10 \mathrm{km}$ standard single-mode fiber (SSMF) operated in the C-band. The receiver performs square-law detection. 
 
-The considered channel matrix $\mathbf{H}$ is a (subsampled) Toeplitz matrix constructed from two-fold oversampling of the combined response of the transmit DAC and the SSMF. The transmit DAC is operated at a symbol rate of $B = 35\,\mathrm{GBd}$ and performs sinc pulseshaping. The SSMF introduces chromatic dispersion which leads to intersymbol interference (ISI). 
+The considered channel matrix $\mathbf{H}$ is a (subsampled) Toeplitz matrix constructed from two-fold oversampling of the combined response of the transmit DAC and the SSMF. The transmit DAC is operated at a symbol rate of $B = 35 \mathrm{GBd}$ and performs sinc pulseshaping. The SSMF introduces chromatic dispersion which leads to intersymbol interference (ISI). 
 
 The channel inputs $\mathbf{X}$ are u.i.i.d. 4-ASK symbols with constellation $\mathcal{X} = \left\lbrace\pm 1, \pm 3\right\rbrace$. We use SIC with $S=4$ stages, where every stage has a recurrent neural network estimate a-posteriori probabilities for mismatched decoding. The whole setup is listed in [[Tab. IV], on arXiv soon](https://arxiv.org). 
 
