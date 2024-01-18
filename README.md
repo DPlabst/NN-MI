@@ -1,7 +1,7 @@
 ## NN-MI: Neural Network Achievable Information Rate Computation for Channels with Memory
 
 
-This repository provides the corresponding program code for the submission "Neural Network Equalizers and Successive Interference Cancellation for Bandlimited Channels with a Nonlinearity" to the *IEEE Transactions on Communications*. A pre-print is available [on arXiv soon](https://arxiv.org).
+This repository provides the corresponding program code for the submission "Neural Network Equalizers and Successive Interference Cancellation for Bandlimited Channels with a Nonlinearity" to the *IEEE Transactions on Communications*. A pre-print is available [https://arxiv.org/abs/2401.09217](https://arxiv.org/abs/2401.09217).
 
 The provided functions compute achievable information rates via successive interference cancellation (SIC). 
 
@@ -12,29 +12,28 @@ The provided functions compute achievable information rates via successive inter
 
 ### Citation
 
-The software is provided under the open-source [MIT license](https://opensource.org/licenses/MIT). If you use the software in your academic work, please cite the accompanying document as follows: *[soon]*
+The software is provided under the open-source [MIT license](https://opensource.org/licenses/MIT). If you use the software in your academic work, please cite the accompanying document as follows: 
 
-<!--
-[document](https://doi.org/10.1109/LCOMM.2020.3006921)
-> D. Plabst, et. al. "Neural Network Equalizers and Successive Interference Cancellation for Bandlimited Channels with a Nonlinearity," ...
+> D. Plabst, T. Prinz, F. Diedolo, T. Wiegart, G. Böcherer, N. Hanik, G. Kramer "Neural Network Equalizers and Successive Interference Cancellation for Bandlimited Channels with a Nonlinearity," CoRR, vol. abs/2401.09217,2024. [Online]. Available: [https://arxiv.org/abs/2401.09217](https://arxiv.org/abs/2401.09217)
 
 
 The corresponding BibTeX entry is:
 
-    @online{plabst2023nnmi,
-    author = {Daniel Plabst},
-    title={NN-MI: Neural Network Achievable Information Rate Computation for Channels with Memory}, 
-    year = {2023},
-    url={https://github.com/DPlabst/NN-MI},
-    urldate = {2024-XX-XX}
+    @misc{plabst2024neural,
+    title={Neural Network Equalizers and Successive Interference Cancellation for Bandlimited Channels with a Nonlinearity},
+    author={Daniel Plabst and Tobias Prinz and Francesca Diedolo and Thomas Wiegart and Georg Böcherer and Norbert Hanik and Gerhard Kramer},
+    year={2024},
+    eprint={2401.09217},
+    archivePrefix={arXiv},
+    primaryClass={cs.IT}
     }
--->
+
 
  ---
 
 ## Example 1: Fiber-Channel with Square-Law Photodetector
 
-Considers the oversampled discrete model [1,2] with a memoryless non-linearity
+Consider the oversampled discrete model [1,2] with a memoryless non-linearity
 
 $$
 \begin{align}
@@ -54,11 +53,14 @@ As an example, the file [example1_nnmi_v1.0.py](example1_nnmi_v1.0.py) computes 
 
 The considered channel matrix $\mathbf{H}$ is a (subsampled) Toeplitz matrix constructed from two-fold oversampling of the combined response of the transmit DAC and the SSMF. The transmit DAC is operated at a symbol rate of $B = 35 \mathrm{GBd}$ and performs sinc pulseshaping. The SSMF introduces chromatic dispersion which leads to intersymbol interference (ISI). 
 
-The channel inputs $\mathbf{X}$ are u.i.i.d. 4-ASK symbols with constellation $\mathcal{X} = \left\lbrace\pm 1, \pm 3\right\rbrace$. We use SIC with $S=4$ stages, where every stage has a recurrent neural network estimate a-posteriori probabilities for mismatched decoding. The whole setup is listed in [[Tab. IV], on arXiv soon](https://arxiv.org). 
+The channel inputs $\mathbf{X}$ are u.i.i.d. 4-ASK symbols with constellation $\mathcal{X} = \left\lbrace\pm 1, \pm 3\right\rbrace$. We use SIC with $S=4$ stages, where every stage has a recurrent neural network estimate a-posteriori probabilities for mismatched decoding. The whole setup is listed in [[Tab. II]](https://arxiv.org/pdf/2401.09217.pdf). 
 
 The figure below plots the SIC stage rates for stages $s=1,\ldots,4$ (blue) and the average rate across all stages (red).
 
 ![4-ASK](nnmi/numerical/4-ASK_L10km_SINC_35GBd.png)
+
+
+<!-- TODO: Configure to reproduce Fig. 9>
 
 ## Example 2: Single-Carrier Communication System with Nonlinear Transmit Power Amplifier
 
