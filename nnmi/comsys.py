@@ -852,7 +852,7 @@ class SICstage:
             + self.chan.modf_str  # Modulation
             + fsep
             + np.array2string(self.nVec_eff, separator="_")
-            .replace("_", "")  # Remove whitespaces
+            .replace(" ", "")  # Remove whitespaces
             .replace("[", "")
             .replace("]", "")  # Plot effective layer size vector
             + fsep
