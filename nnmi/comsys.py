@@ -22,6 +22,17 @@ def gen_ps_rcos(N_sim, N_span, alph_roll):
 
     return h, t
 
+# * ----- Root-Raised-cosine TX DAC  -----
+def gen_ps_rrcos(N_sim, N_span, alph_roll):
+    # The modulo makes sure we always have the center tap
+    t_even, h_even = comm.rrcosfilter(
+        N_sim * N_span + (N_sim % 2) + 2, alph_roll, 1, N_sim
+    )
+    t = t_even[1:]  # Cut away first sample of CIR
+    h = h_even[1:]  # Cut away first sample of time vector
+
+    return h, t
+
 
 # * ----- Normalize channel impulse response (CIR) energy to unit power  -----
 def norm_ps(N_sim, filt):
@@ -841,6 +852,7 @@ class SICstage:
             + self.chan.modf_str  # Modulation
             + fsep
             + np.array2string(self.nVec_eff, separator="_")
+            .replace("_", "")  # Remove whitespaces
             .replace("[", "")
             .replace("]", "")  # Plot effective layer size vector
             + fsep
