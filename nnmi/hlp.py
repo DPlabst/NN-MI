@@ -3,7 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tabulate import tabulate
 
-# * --------  Save all results to a CSV file --------- 
+
+# * --------  Save all results to a CSV file ---------
 def saveresults(
     SNR_dB_vec, L_snr, S_SIC, filename, SER_mat, I_qXY_mat, I_qXY, SER, c_comp
 ):
@@ -39,7 +40,7 @@ def saveresults(
     )
 
 
-# * -------- Print a summary with the results after finishing the simulation ------- 
+# * -------- Print a summary with the results after finishing the simulation -------
 def summary(SNR_dB_vec, S_SIC, filename, I_qXY_mat, I_qXY):
     print("\n---------------")
     print("Summary:")
@@ -70,7 +71,7 @@ def summary(SNR_dB_vec, S_SIC, filename, I_qXY_mat, I_qXY):
     )
 
 
-# * -------- Process arguments from CLI ------- 
+# * -------- Process arguments from CLI -------
 # (may be overwritten in main file for debugging)
 def process_cliargs(cli_args):
     if cli_args.mod_format is not None:
@@ -80,8 +81,8 @@ def process_cliargs(cli_args):
     if cli_args.stages is not None:  # If SIC stages are set via CLI
         S_SIC = cli_args.stages
 
-    if cli_args.indiv is not None:
-        S_SIC_vec = np.array([cli_args.indiv], dtype=int)
+    if cli_args.indiv_stage is not None:
+        S_SIC_vec = np.array([cli_args.indiv_stage], dtype=int)
     else:
         # Default: compute all SIC stages
         S_SIC_vec = np.arange(1, S_SIC + 1, dtype=int)
@@ -98,6 +99,7 @@ def process_cliargs(cli_args):
         dev = "cpu"
 
     return modf_str, S_SIC, S_SIC_vec, dev
+
 
 # * -------- Plot results after simulation -------
 def plot_results(Ptx_dB_vec, S_SIC, SER_mat, I_qXY_mat, I_qXY, SER):
@@ -126,7 +128,7 @@ def plot_results(Ptx_dB_vec, S_SIC, SER_mat, I_qXY_mat, I_qXY, SER):
 def init_cliparser():
     formatter = lambda prog: argparse.RawTextHelpFormatter(prog, max_help_position=60)
     parser = argparse.ArgumentParser(
-        description="NN-MI: Neural Network Achievable Information Computation for Channels with Memory",
+        description="NN-MI: Neural Network Achievable Information Rate Computation for Channels with Memory",
         formatter_class=formatter,
     )
     parser.add_argument(
@@ -142,7 +144,10 @@ def init_cliparser():
         help="""M-ASK, M-PAM, M-SQAM (star-QAM), M-QAM (square) modulation with order M""",
     )
     parser.add_argument(
-        "--indiv", "-i", type=np.int64, help="simulation of a single individual stage"
+        "--indiv_stage",
+        "-s",
+        type=np.int64,
+        help="simulation of a single individual stage",
     )
     parser.add_argument(
         "--device",
@@ -157,7 +162,7 @@ def init_cliparser():
 def printinfo():
     print("**************************************************")
     print(
-        " * NN-MI: Neural Network Achievable Information Computation for Channels with Memory"
+        " * NN-MI: Neural Network Achievable Information Rate Computation for Channels with Memory"
     )
     print(" * Daniel Plabst")
     print(" * Institute for Communications Engineering (LNT)")
