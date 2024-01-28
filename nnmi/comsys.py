@@ -22,6 +22,7 @@ def gen_ps_rcos(N_sim, N_span, alph_roll):
 
     return h, t
 
+
 # * ----- Root-Raised-cosine TX DAC  -----
 def gen_ps_rrcos(N_sim, N_span, alph_roll):
     # The modulo makes sure we always have the center tap
@@ -355,14 +356,11 @@ class SICstage:
 
         # * ------- Find next greater integer T_rnn to provided T_rnn_raw ---------
         # Implementation-specific for block-processing in time-varying RNNs
-        # Example: Assume stage s = 2 out of S_SIC = 3.
-        #   The RNN cells repeat periodically with period P=2: [C1, C2, C1, C2, ....]
-        #   We process an integer number of periods P and adjust T_rnn_raw accordingly.
-        # Example: S_SIC = 3, then T_rnn needs to be devisable by P=[1,2,1] that correspond to stages s = 1,2,3.
-        tmp_SIC_tv = np.arange(1, max(1, S_SIC))  # Arange removes last element
+        # Period (order) of time-varying RNN
+        self.Ntv = self.S_SIC - cur_SIC + 1
 
         # Make time-depth integer divisable by time-varying RNN order
-        self.T_rnn = (-(-T_rnn_raw // np.prod(tmp_SIC_tv))) * np.prod(tmp_SIC_tv)
+        self.T_rnn = (-(-T_rnn_raw // self.Ntv)) * self.Ntv
 
         # * ------ Create training and validation sequences with integer multiples of first dimensions -----
         n_sc = S_SIC * self.T_rnn  # Blocklength n needs to be integer divisible by n_sc
@@ -371,7 +369,7 @@ class SICstage:
         # Keep training data constant per SIC stage.
         # Example: When training with blocklength n and S_SIC = 3,
         # cur_SIC = 2 uses only 2/3 of n for training. We rescale for this loss.
-        sc_y_eff = 1 / ((self.S_SIC - cur_SIC + 1) / self.S_SIC)
+        sc_y_eff = 1 / (self.Ntv / self.S_SIC)
 
         # Make sure we have integer fractions after creating RNN input tensors
         self.n_train_p_stage = int((-(-sc_y_eff * n_train) // n_sc) * n_sc)
