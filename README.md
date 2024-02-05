@@ -84,10 +84,10 @@ $$
 
 with the 
 - filter $(h_\kappa)_{\kappa=-3}^{3} = (0.19, 0.35, 0.46, 0.5, 0.46, 0.35, 0.19)$
-- u.i.i.d. discrete channel inputs $X_\kappa$ from the constellation $\mathcal{A}$ 
+- u.i.i.d. discrete channel inputs $X_\kappa$ from the BPSK constellation $\mathcal{A} = \{\pm 1\}$ 
 - real AWGN $N_\kappa$.
 
-This model is often used to describe magnetic recording channels.
+This model often describes magnetic recording channels.
 
 _[Results in progress]_
 
