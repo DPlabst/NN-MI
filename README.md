@@ -30,6 +30,7 @@ The continuous-time model is
 $$
 Y(t) =  h(t) * \left(\left|X(t)\right|^2 + N(t)\right)
 $$
+
 with the 
 - baseband signal $X(t) = \sum_i X_i \, g(t-iT)$  and symbol period $T$
 - u.i.i.d. discrete channel inputs $X_i$ from the constellation $\mathcal{A}$ 
@@ -77,9 +78,11 @@ The plotted rates are the same as the single-letter mutual information [Fig. 1, 
 ### Example 2b: With ISI
 
 Consider the discrete-time ISI channel [4]: 
+
 $$  
 Y_\kappa = X_\kappa * h_\kappa + N_\kappa
 $$
+
 with the 
 - filter $(h_\kappa)_{\kappa=-3}^{3} = (0.19, 0.35, 0.46, 0.5, 0.46, 0.35, 0.19)$
 - u.i.i.d. discrete channel inputs $X_\kappa$ from the constellation $\mathcal{A}$ 
