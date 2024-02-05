@@ -58,7 +58,7 @@ modf_str, S_SIC, S_SIC_vec_1idx, dev = hlp.process_cliargs(cli_args)
 
 # * ---------- Average transmit power -------------------
 # Vary TX power; AWGN power fixed in channel() class
-Ptx_dB_vec = np.arange(-15, 19, 2)
+Ptx_dB_vec = np.arange(-15, 30, 2)
 L_snr = len(Ptx_dB_vec)  # Number of SNR steps
 
 # * -----  Differential phase precoding flag ------
