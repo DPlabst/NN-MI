@@ -88,14 +88,14 @@ $$
 
 with the 
 - filter $(h_\kappa)_{\kappa=-3}^{3} = (0.19, 0.35, 0.46, 0.5, 0.46, 0.35, 0.19)$
-- u.i.i.d. discrete channel inputs $X_\kappa$ from the BPSK constellation $\mathcal{A} = \{\pm 1\}$ 
+- u.i.i.d. discrete channel inputs $X_\kappa$ from the BPSK constellation $\mathcal{A} = \lbrace\pm 1\rbrace$ 
 - real AWGN $N_\kappa$.
 
 This model often describes magnetic recording channels.
 
 _[Results in progress]_
 
-<!-- > Running [example2b_nnmi_v1.0.py](example2b_nnmi_v1.0.py) computes achievable information rates for BPSK inputs $\mathcal{A} = \{\pm 1\}$ and the model (4). We also plot the capacity of the memoryless real AWGN channel. 
+<!-- > Running [example2b_nnmi_v1.0.py](example2b_nnmi_v1.0.py) computes achievable information rates for BPSK inputs $\mathcal{A} = \lbrace\pm 1\rbrace$ and the model (4). We also plot the capacity of the memoryless real AWGN channel. 
 > ![4-ASK](png/linear_b.png) --> 
 
 ## Example 3: Baseband Communication System with AWGN and Nonlinear Transmit Power Amplifier
