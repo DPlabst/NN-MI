@@ -108,6 +108,25 @@ class SSMF:
             g_comb = g_ps
 
         return g_comb
+    
+
+
+# * ----- Standard single-mode fiber (SSMF) channel ----
+class CH6:
+    def __init__(self):
+        self.L_SSMF = 0  # Dummy
+        self.R_sym = 0  # Dummy
+
+        self.h = np.array([0.19, 0.35, 0.46, 0.5, 0.46, 0.35, 0.19]) #Sampled at symbol rate 
+
+    # * ----- Generate combined impulse response (CIR) between TX-DAC (g_ps) and fiber response -----
+    def gen_comb_cir(self, N_sim, g_ps):
+        
+        g_CH6_up = np.zeros(N_sim*(len(self.h)-1)+1)
+        g_CH6_up[0::N_sim] = self.h
+        g_comb = np.convolve(g_ps,g_CH6_up,mode='same')
+
+        return g_comb
 
 
 # *---------------- Apply channel ------------
@@ -125,7 +144,7 @@ class channel:
         h,
         rx_cutoff,
         nonl_f,
-        SSMF_Cband,  # Fiber channel instance
+        phychan,  # Fiber channel instance
         N_sim,
         d,
         f_cplx_AWGN,
@@ -142,7 +161,7 @@ class channel:
         self.f_diff_precoding = f_diff_precoding
 
         # Compute "combination" of  SSMF channel and TX DAC g_ps
-        self.g = SSMF_Cband.gen_comb_cir(N_sim, g_ps)
+        self.g = phychan.gen_comb_cir(N_sim, g_ps)
         self.tx_rolloff = tx_rolloff
 
         # * ----- RX Parameters -----
@@ -154,8 +173,8 @@ class channel:
         self.nonl_f = nonl_f
 
         # * ----- Fiber Channel parameter -----
-        self.R_sym = SSMF_Cband.R_sym
-        self.L_SSMF = SSMF_Cband.L_SSMF
+        self.R_sym = phychan.R_sym
+        self.L_SSMF = phychan.L_SSMF
 
         self.N_sim = N_sim
         self.d = d
