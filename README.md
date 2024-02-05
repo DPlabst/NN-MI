@@ -42,8 +42,7 @@ The SLD doubles the signal bandwidth and thus the receive filter $h(t)$ is confi
 
 > Running [example1a_nnmi_v1.0.py](example1a_nnmi_v1.0.py) and [example1b_nnmi_v1.0.py](example1b_nnmi_v1.0.py) computes achievable information rates for $L_\text{fib} = 0$ (back-to-back) and $L_\text{fib} = 30 \mathrm{km}$ SSMF, respectively; see [[Tab. II]](https://arxiv.org/pdf/2401.09217.pdf). The fiber is operated at the C band carrier $\lambda = 1550\text{nm}$. The transmit DAC is operated at a symbol rate of $B = 35\mathrm{GBd}$ and performs sinc pulseshaping. We use 4-ASK modulation with constellation $\mathcal{A} = \left\lbrace\pm 1, \pm 3\right\rbrace$. The example considers SIC with $S=4$ stages.
 > The figure below plots the SIC stage rates for stages $s=1,\ldots,4$ and the average rate across all stages (red). We set the noise variance $\sigma^2 = 1$ and vary the average transmit power $P_\text{tx}$ before the PA. Hence $\mathrm{SNR} := P_\text{tx}$. 
-> 
-> ![4-ASK](png/sld.png)
+![SLD](png/sld.png)
 
 
 ## Example 2: Linear Baseband Communication System with AWGN
@@ -71,7 +70,7 @@ Consider a flat channel $h_\text{ch}(t)$ that passes $X(t)$ without distortion. 
 > $$ Y = X + N $$
 > and thus, SDD $S=1$ and JDD achieve the same performance.
 The plotted rates are the same as the single-letter mutual information [Fig. 1, 3]. For comparison, we also plot the capacity of the memoryless AWGN channel, achieved by Gaussian signalling. For real modulation, the SNR definition takes only the real component of the noise into account. 
-> ![4-ASK](png/linear_a.png)
+![Linear](png/linear_a.png)
 
 
 ### Example 2b: With ISI
@@ -117,7 +116,7 @@ with peak output power $P_\mathrm{max}$. The remaining parameters are the
 
 > Running [example3a_nnmi_v1.0.py](example3a_nnmi_v1.0.py) creates the left subplot below. The receiver performs  matched-filtering, symbol-rate sampling and SDD. We set the noise variance $\sigma^2 = 1$ and vary the average transmit power $P_\text{tx}$. Hence $\mathrm{SNR} := P_\text{tx}$. Achievable information rates are computed without PA constraints (red curve), and 9dBW and 6dBW transmit peak powers. 
 > Running [example3b_nnmi_v1.0.py](example3b_nnmi_v1.0.py) creates the right subplot below. The receiver performs 4-fold oversampling and SIC with up to three stages. For higher transmit powers, $f(x)$ broadens the transmit signal spectrum and oversampling at the receiver increases information rates.
-> ![4-ASK](png/tanh.png)
+![TANH](png/tanh.png)
 
 
 
