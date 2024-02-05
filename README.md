@@ -27,11 +27,9 @@ Consider a short-range fiber-optic communication system with a square-law detect
 
 The continuous-time model is
 
-$
-\begin{align}
+$$
 Y(t) =  h(t) * \left(\left|X(t)\right|^2 + N(t)\right)
-\end{align}
-$
+$$
 with the 
 - baseband signal $X(t) = \sum_i X_i \, g(t-iT)$  and symbol period $T$
 - u.i.i.d. discrete channel inputs $X_i$ from the constellation $\mathcal{A}$ 
@@ -41,7 +39,7 @@ with the
 
 The SLD doubles the signal bandwidth and thus the receive filter $h(t)$ is configured as a brickwall filter with twice the bandwidth of $X(t)$. We oversample $Y(t)$ sufficiently high to obtain sufficient statistics. The oversampled channel outputs are passed to the neural network for further processing.
 
-> Running [example1a_nnmi_v1.0.py](example1a_nnmi_v1.0.py) and [example1b_nnmi_v1.0.py](example1b_nnmi_v1.0.py) computes achievable information rates for the model (1) and $L_\text{fib} = 0$ (back-to-back) and $L_\text{fib} = 30 \mathrm{km}$ SSMF, respectively; see [[Tab. II]](https://arxiv.org/pdf/2401.09217.pdf). The fiber is operated at the C band carrier $\lambda = 1550\text{nm}$. The transmit DAC is operated at a symbol rate of $B = 35\mathrm{GBd}$ and performs sinc pulseshaping. We use 4-ASK modulation with constellation $\mathcal{A} = \left\lbrace\pm 1, \pm 3\right\rbrace$. The example considers SIC with $S=4$ stages.
+> Running [example1a_nnmi_v1.0.py](example1a_nnmi_v1.0.py) and [example1b_nnmi_v1.0.py](example1b_nnmi_v1.0.py) computes achievable information rates for $L_\text{fib} = 0$ (back-to-back) and $L_\text{fib} = 30 \mathrm{km}$ SSMF, respectively; see [[Tab. II]](https://arxiv.org/pdf/2401.09217.pdf). The fiber is operated at the C band carrier $\lambda = 1550\text{nm}$. The transmit DAC is operated at a symbol rate of $B = 35\mathrm{GBd}$ and performs sinc pulseshaping. We use 4-ASK modulation with constellation $\mathcal{A} = \left\lbrace\pm 1, \pm 3\right\rbrace$. The example considers SIC with $S=4$ stages.
 > The figure below plots the SIC stage rates for stages $s=1,\ldots,4$ and the average rate across all stages (red). We set the noise variance $\sigma^2 = 1$ and vary the average transmit power $P_\text{tx}$. Hence $\mathrm{SNR} := P_\text{tx}$. 
 > 
 > ![4-ASK](png/sld.png)
@@ -51,11 +49,9 @@ The SLD doubles the signal bandwidth and thus the receive filter $h(t)$ is confi
 
 Consider a linear baseband communication system with AWGN. The continuous-time model is
 
-$  
-\begin{align}  
+$$
 Y(t) =  h(t) * \left(h_\text{ch}(t) * X(t) + N(t)\right)
-\end{align}  
-$  
+$$  
 
 with the
 
@@ -70,14 +66,10 @@ with the
 
 Consider a flat channel $h_\text{ch}(t)$ that passes $X(t)$ without distortion. The combination of transmit and receive filter is a Nyquist filter. After matched-filtering, sampling at symbol rate results in sufficient statistics. The discrete noise is c.s. discrete AWGN and the overall discrete-time system is memoryless. 
 
-> Running [example2a_nnmi_v1.0.py](example2a_nnmi_v1.0.py) computes achievable information rates for the model (2). The equivalent discrete system model is a memoryless channel with c.s. AWGN: 
-> $$
-> \begin{align}
->    Y = X + N 
-> \end{align}
-> $$
+> Running [example2a_nnmi_v1.0.py](example2a_nnmi_v1.0.py) computes achievable information rates for the above model. The equivalent discrete system model is a memoryless channel with c.s. AWGN: 
+> $$ Y = X + N $$
 > and thus, SDD $S=1$ and JDD achieve the same performance.
-The plotted rates are the same as the single-letter mutual information [Fig. 1, 3]. For comparison, we also plot the capacity of (3), achieved by Gaussian signalling. For real modulation, the SNR definition takes only the real component of the noise into account. 
+The plotted rates are the same as the single-letter mutual information [Fig. 1, 3]. For comparison, we also plot the capacity of the memoryless AWGN channel, achieved by Gaussian signalling. For real modulation, the SNR definition takes only the real component of the noise into account. 
 
 > ![4-ASK](png/linear_a.png)
 
@@ -85,16 +77,15 @@ The plotted rates are the same as the single-letter mutual information [Fig. 1, 
 ### Example 2b: With ISI
 
 Consider the discrete-time ISI channel [4]: 
-$$  \begin{align}
-    Y_\kappa = X_\kappa * h_\kappa + N_\kappa
-    \end{align}
+$$  
+Y_\kappa = X_\kappa * h_\kappa + N_\kappa
 $$
 with the 
 - filter $(h_\kappa)_{\kappa=-3}^{3} = (0.19, 0.35, 0.46, 0.5, 0.46, 0.35, 0.19)$
 - u.i.i.d. discrete channel inputs $X_\kappa$ from the constellation $\mathcal{A}$ 
 - real AWGN $N_\kappa$.
 
-The model (4) is often used to describe magnetic recording channels.
+This model is often used to describe magnetic recording channels.
 
 _[Results in progress]_
 
@@ -107,9 +98,7 @@ _[Results in progress]_
 Consider the baseband communication system with AWGN
 
 $$
-\begin{align}
 Y(t) =  h(t) * \bigg(f(X(t)) + N(t)\bigg)
-\end{align}
 $$
 
 where the real baseband signal $X(t) = \sum_i X_i \, g(t-iT)$ passes through a nonlinear power amplifier (PA)
