@@ -119,7 +119,7 @@ with peak output power $P_\mathrm{max}$. The remaining parameters are the
 - receive filter $h(t)$ 
 - real-valued white Gaussian noise $N(t)$.
 
-> Running [example3a_nnmi_v1.0.py](example3a_nnmi_v1.0.py) creates the left subplot below. The receiver performs  matched-filtering, symbol-rate sampling and SDD. We set the noise variance $\sigma^2 = 1$ and vary the average transmit power $P_\text{tx}$ before the PA. Hence $\mathrm{SNR} := P_\text{tx}$. Achievable information rates are computed without PA constraints (red curve), and 9dBW and 6dBW transmit peak powers. 
+> We consider 4-ASK modulation. Running [example3a_nnmi_v1.0.py](example3a_nnmi_v1.0.py) creates the left subplot below. The receiver performs  matched-filtering, symbol-rate sampling and SDD. We set the noise variance $\sigma^2 = 1$ and vary the average transmit power $P_\text{tx}$ before the PA. Hence $\mathrm{SNR} := P_\text{tx}$. Achievable information rates are computed without PA constraints (red curve), and 9dBW and 6dBW transmit peak powers. 
 >
 > Running [example3b_nnmi_v1.0.py](example3b_nnmi_v1.0.py) creates the right subplot below. The receiver performs 4-fold oversampling and SIC with up to three stages. For higher transmit powers, $f(x)$ broadens the transmit signal spectrum and oversampling at the receiver increases information rates.
 > 
