@@ -27,11 +27,11 @@ Consider a short-range fiber-optic communication system with a square-law detect
 
 The continuous-time model is
 
-$$
+$
 \begin{align}
 Y(t) =  h(t) * \left(\left|X(t)\right|^2 + N(t)\right)
 \end{align}
-$$
+$
 with the 
 - baseband signal $X(t) = \sum_i X_i \, g(t-iT)$  and symbol period $T$
 - u.i.i.d. discrete channel inputs $X_i$ from the constellation $\mathcal{A}$ 
@@ -51,11 +51,11 @@ The SLD doubles the signal bandwidth and thus the receive filter $h(t)$ is confi
 
 Consider a linear baseband communication system with AWGN. The continuous-time model is
 
-$$
-\begin{align}
+$  
+\begin{align}  
 Y(t) =  h(t) * \left(h_\text{ch}(t) * X(t) + N(t)\right)
-\end{align}
-$$
+\end{align}  
+$  
 
 with the
 
@@ -71,9 +71,11 @@ with the
 Consider a flat channel $h_\text{ch}(t)$ that passes $X(t)$ without distortion. The combination of transmit and receive filter is a Nyquist filter. After matched-filtering, sampling at symbol rate results in sufficient statistics. The discrete noise is c.s. discrete AWGN and the overall discrete-time system is memoryless. 
 
 > Running [example2a_nnmi_v1.0.py](example2a_nnmi_v1.0.py) computes achievable information rates for the model (2). The equivalent discrete system model is a memoryless channel with c.s. AWGN: 
-> $$\begin{align}
-    Y = X + N 
-\end{align}$$ 
+> $$
+> \begin{align}
+>    Y = X + N 
+> \end{align}
+> $$
 > and thus, SDD $S=1$ and JDD achieve the same performance.
 The plotted rates are the same as the single-letter mutual information [Fig. 1, 3]. For comparison, we also plot the capacity of (3), achieved by Gaussian signalling. For real modulation, the SNR definition takes only the real component of the noise into account. 
 
