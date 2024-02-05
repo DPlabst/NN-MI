@@ -32,7 +32,7 @@ Y(t) =  h(t) * \left(\left|X(t)\right|^2 + N(t)\right)
 $$
 
 with the 
-- baseband signal $X(t) = \sum_i X_i \, g(t-iT)$  and symbol period $T$
+- baseband signal $X(t) = \sum_i X_i  g(t-iT)$  and symbol period $T$
 - u.i.i.d. discrete channel inputs $X_i$ from the constellation $\mathcal{A}$ 
 - filter $g(t)$ that combines transmit pulseshaping (DAC) and linear fiber effects
 - filter $h(t)$ that models linear effects at the receiver
@@ -56,7 +56,7 @@ $$
 
 with the
 
-- baseband signal $X(t) = \sum_i X_i \, g(t-iT)$  and symbol period $T$
+- baseband signal $X(t) = \sum_i X_i  g(t-iT)$  and symbol period $T$
 - u.i.i.d. discrete channel inputs $X_i$ from the constellation $\mathcal{A}$ 
 - RRC filter $g(t)$ with roll-off factor $\alpha$ for transmit pulseshaping
 - frequency-selective channel $h_\text{ch}(t)$
@@ -104,7 +104,7 @@ $$
 Y(t) =  h(t) * \bigg(f(X(t)) + N(t)\bigg)
 $$
 
-where the real baseband signal $X(t) = \sum_i X_i \, g(t-iT)$ passes through a nonlinear power amplifier (PA)
+where the real baseband signal $X(t) = \sum_i X_i  g(t-iT)$ passes through a nonlinear power amplifier (PA)
 
 $$f(x) = \sqrt{P_\mathrm{max}} \cdot
    \tanh\left( \frac{x}{\sqrt{P_\mathrm{max}}} \right)
