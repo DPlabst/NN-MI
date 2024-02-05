@@ -108,7 +108,6 @@ class SSMF:
             g_comb = g_ps
 
         return g_comb
-    
 
 
 # * ----- Standard single-mode fiber (SSMF) channel ----
@@ -117,14 +116,16 @@ class CH6:
         self.L_SSMF = 0  # Dummy
         self.R_sym = 0  # Dummy
 
-        self.h = np.array([0.19, 0.35, 0.46, 0.5, 0.46, 0.35, 0.19]) #Sampled at symbol rate 
+        self.h = np.array(
+            [0.19, 0.35, 0.46, 0.5, 0.46, 0.35, 0.19]
+        )  # Sampled at symbol rate
 
     # * ----- Generate combined impulse response (CIR) between TX-DAC (g_ps) and fiber response -----
     def gen_comb_cir(self, N_sim, g_ps):
-        
-        g_CH6_up = np.zeros(N_sim*(len(self.h)-1)+1)
+
+        g_CH6_up = np.zeros(N_sim * (len(self.h) - 1) + 1)
         g_CH6_up[0::N_sim] = self.h
-        g_comb = np.convolve(g_ps,g_CH6_up,mode='same')
+        g_comb = np.convolve(g_ps, g_CH6_up, mode="same")
 
         return g_comb
 

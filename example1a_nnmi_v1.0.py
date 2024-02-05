@@ -128,8 +128,8 @@ n_realz = 100  # Number of frames for verification
 # * ------- Physical Channel ----------
 # Generate "C-Band" SSMF channel instance
 # Other channel classes may be written and passes to comsys.channel()
-SSMF_Cband = comsys.SSMF("C", L_SSMF, R_sym)
-#CH6_chan = comsys.CH6()
+SSMF_chan = comsys.SSMF("C", L_SSMF, R_sym)
+# CH6_chan = comsys.CH6()
 
 N_sim = 2  # Oversampling for simulation
 d = 1  # Downsample by interger "d" after filtering with h[k]
@@ -149,7 +149,7 @@ g_ps = comsys.norm_ps(N_sim=N_sim, filt=g_ps)  # Normalize to unit energy
 h = [1]  # delta[k]
 rx_cutoff = 0.9999  # Relative to N_sim
 # RX front-end filter
-#h = scipy.signal.firwin(numtaps=201, cutoff=rx_cutoff, window="boxcar")
+# h = scipy.signal.firwin(numtaps=201, cutoff=rx_cutoff, window="boxcar")
 
 
 # * --------------------------------------------------
@@ -164,7 +164,7 @@ mychan = comsys.channel(
     h,
     rx_cutoff,
     nonl_f,
-    SSMF_Cband,  # Pass fiber channel
+    SSMF_chan,  # Pass fiber channel
     N_sim,
     d,
     f_cplx_AWGN,
@@ -232,7 +232,7 @@ if __name__ == "__main__":
     # Save individual SIC rates and average rate:
     if f_save == 1:
         hlp.saveresults(
-            Ptx_dB_vec, L_snr, S_SIC, 'test/sld/noISI/clean/'+filename, SER_mat, I_qXY_mat, I_qXY, SER, c_comp
+            Ptx_dB_vec, L_snr, S_SIC, filename, SER_mat, I_qXY_mat, I_qXY, SER, c_comp
         )
 
     if f_showplot == 1:

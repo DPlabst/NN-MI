@@ -79,7 +79,7 @@ L_SIC = 16
 # * -------  Memoryless Nonlinearity -------------
 def nonl_f(x, Ptx):
     # --- Linear System  ---
-    #z = x
+    # z = x
 
     # --- RX Square-Law Detector   ---
     # z = np.abs(x) ** 2
@@ -131,8 +131,8 @@ n_realz = 100  # Number of frames for verification
 # * ------- Physical Channel ----------
 # Generate "C-Band" SSMF channel instance
 # Other channel classes may be written and passes to comsys.channel()
-SSMF_Cband = comsys.SSMF("C", L_SSMF, R_sym)
-#CH6_chan = comsys.CH6()
+SSMF_chan = comsys.SSMF("C", L_SSMF, R_sym)
+# CH6_chan = comsys.CH6()
 
 N_sim = 4  # Oversampling for simulation
 d = 1  # Downsample by interger "d" after filtering with h[k]
@@ -149,10 +149,10 @@ g_ps, _ = comsys.gen_ps_rrcos(N_sim=N_sim, N_span=151, alph_roll=tx_rolloff)
 g_ps = comsys.norm_ps(N_sim=N_sim, filt=g_ps)  # Normalize to unit energy
 
 # * --------- RX ADC FILTER h[u] -------------
-#h = [1]  # delta[k]
+# h = [1]  # delta[k]
 rx_cutoff = 0.99999  # Relative to N_sim
 # RX front-end filter
-#h, _ = comsys.gen_ps_rrcos(N_sim=N_sim, N_span=151, alph_roll=tx_rolloff) #Matched filter (scaling does not change SNR)
+# h, _ = comsys.gen_ps_rrcos(N_sim=N_sim, N_span=151, alph_roll=tx_rolloff) #Matched filter (scaling does not change SNR)
 h = scipy.signal.firwin(numtaps=201, cutoff=rx_cutoff, window="boxcar")
 
 # * --------------------------------------------------
@@ -167,7 +167,7 @@ mychan = comsys.channel(
     h,
     rx_cutoff,
     nonl_f,
-    SSMF_Cband,  # Pass fiber channel
+    SSMF_chan,  # Pass fiber channel
     N_sim,
     d,
     f_cplx_AWGN,
@@ -235,7 +235,7 @@ if __name__ == "__main__":
     # Save individual SIC rates and average rate:
     if f_save == 1:
         hlp.saveresults(
-            Ptx_dB_vec, L_snr, S_SIC, 'test/tanh/OS/clean/'+filename, SER_mat, I_qXY_mat, I_qXY, SER, c_comp
+            Ptx_dB_vec, L_snr, S_SIC, filename, SER_mat, I_qXY_mat, I_qXY, SER, c_comp
         )
 
     if f_showplot == 1:
