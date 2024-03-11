@@ -1,6 +1,6 @@
 # NN-MI: Neural Network Achievable Information Rate Computation for Channels with Memory
 
-This repository contains the program code for the paper "Neural Network Equalizers and Successive Interference Cancellation for Bandlimited Channels with a Nonlinearity", submitted to the *IEEE Transactions on Communications* on January 11, 2024. A preprint of the submission is [available] (https://arxiv.org/abs/2401.09217).
+This repository contains the program code for the paper "Neural Network Equalizers and Successive Interference Cancellation for Bandlimited Channels with a Nonlinearity", submitted to the *IEEE Transactions on Communications* on January 11, 2024. A preprint of the submission is [available](https://arxiv.org/abs/2401.09217).
 
 The code computes achievable information rates under successive interference cancellation (SIC). At each SIC stage a recurrent NN estimates (conditional) a-posteriori probabilities.
 
