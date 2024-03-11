@@ -148,13 +148,13 @@ which outputs:
 > [!NOTE]
 > The NN-SIC parameters are chosen to work over a wide range of SNRs. Fine-tuning the parameters based on model memory, constellation size or SNR can lead to better performance and faster training. 
 
-[^1] D. Plabst et al., "Achievable Rates for Short-Reach Fiber-Optic Channels With Direct Detection," in *Journal of Lightwave Technology*, vol. 40, no. 12, pp. 3602-3613, 15 June15, 2022, doi: 10.1109/JLT.2022.3149574. [[Xplore]](https://ieeexplore.ieee.org/document/9707620)
+[^1]: D. Plabst et al., "Achievable Rates for Short-Reach Fiber-Optic Channels With Direct Detection," in *Journal of Lightwave Technology*, vol. 40, no. 12, pp. 3602-3613, 15 June15, 2022, doi: 10.1109/JLT.2022.3149574. [[Xplore]](https://ieeexplore.ieee.org/document/9707620)
 
-[^2] T. Prinz, D. Plabst, T. Wiegart, S. Calabrò, N. Hanik and G. Kramer, "Successive Interference Cancellation for Bandlimited Channels with Direct Detection," in *IEEE Transactions on Communications*, to appear. [[Xplore]](https://ieeexplore.ieee.org/document/10328977)
+[^2]: T. Prinz, D. Plabst, T. Wiegart, S. Calabrò, N. Hanik and G. Kramer, "Successive Interference Cancellation for Bandlimited Channels with Direct Detection," in *IEEE Transactions on Communications*, to appear. [[Xplore]](https://ieeexplore.ieee.org/document/10328977)
 
-[^3] G. D. Forney and G. Ungerboeck, "Modulation and coding for linear Gaussian channels," in IEEE Transactions on Information Theory, vol. 44, no. 6, pp. 2384-2415, Oct. 1998, doi: 10.1109/18.720542.  [[Xplore]](https://ieeexplore.ieee.org/document/720542)
+[^3]: G. D. Forney and G. Ungerboeck, "Modulation and coding for linear Gaussian channels," in IEEE Transactions on Information Theory, vol. 44, no. 6, pp. 2384-2415, Oct. 1998, doi: 10.1109/18.720542.  [[Xplore]](https://ieeexplore.ieee.org/document/720542)
 
-[^3] D. M. Arnold, H. . -A. Loeliger, P. O. Vontobel, A. Kavcic and W. Zeng, "Simulation-Based Computation of Information Rates for Channels With Memory," in IEEE Transactions on Information Theory, vol. 52, no. 8, pp. 3498-3508, Aug. 2006, doi: 10.1109/TIT.2006.878110. [[Xplore]](https://ieeexplore.ieee.org/document/1661831)
+[^4]: D. M. Arnold, H. . -A. Loeliger, P. O. Vontobel, A. Kavcic and W. Zeng, "Simulation-Based Computation of Information Rates for Channels With Memory," in IEEE Transactions on Information Theory, vol. 52, no. 8, pp. 3498-3508, Aug. 2006, doi: 10.1109/TIT.2006.878110. [[Xplore]](https://ieeexplore.ieee.org/document/1661831)
 
 
 ## Software Requirements 
