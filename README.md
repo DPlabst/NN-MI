@@ -84,7 +84,7 @@ with the
 - u.i.i.d. discrete channel inputs $X_\kappa$ from the BPSK constellation $\mathcal{A} = \lbrace\pm 1\rbrace$ 
 - real AWGN $N_\kappa$.
 
-This model often describes magnetic recording channels. The program [ex2b_nnmi.py](ex2b_nnmi.py) uses NN-SIC to calculate the achievable rates. We compare the results with the exact information rates calculated with the forward-backward algorithm (FBA)[^4]. The NN-SDD rates are within 0.1 dB of the FBA reference and NN-SIC with $S=4$ steps is very close to the JDD rate. The JDD rate can be approached by increasing the number of SIC steps. 
+This model often describes magnetic recording channels. The program [ex2b_nnmi.py](ex2b_nnmi.py) uses NN-SIC to calculate the achievable rates. We compare the results with the exact information rates calculated with the forward-backward algorithm (FBA)[^4]. The NN-SDD rates are within 0.1 dB of the FBA reference and NN-SIC with $S=4$ stages is very close to the JDD rate. The JDD rate can be approached by increasing the number of SIC steps. 
 
 ![Example 2b](png/ex2b.png) 
 
@@ -111,7 +111,7 @@ with peak output power $P_\mathrm{max}$. The parameters are the
 - real-valued white Gaussian noise $N(t)$.
 
 We compare: 
-- [ex3a_nnmi.py](ex3a_nnmi.py) performs  matched-filtering, symbol-rate sampling and SDD. 
+- [ex3a_nnmi.py](ex3a_nnmi.py) performs matched-filtering, symbol-rate sampling and SDD. 
 - [ex3b_nnmi.py](ex3b_nnmi.py) uses a brickwall receive filter $h(t)$ with cutoff frequency $2/T$ and performs 4-fold oversampling with SIC. 
 
 We consider 4-ASK modulation, set the noise variance $\sigma^2 = 1$ and vary the average transmit power $P_\text{tx}$ before the PA. We define $\mathrm{SNR} = P_\text{tx}$. Achievable information rates are plotted without PA constraints (blue curve) and 7 dBW transmit peak power. For higher transmit powers, $f(x)$ significantly broadens the transmit signal spectrum and oversampling with SIC increases information rates.
