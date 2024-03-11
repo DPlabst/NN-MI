@@ -19,7 +19,7 @@ The corresponding BibTeX entry is: [nnmi/cite.bib](nnmi/cite.bib).
 
 ## Example 1: Fiber-Channel with Square-Law Detector
 
-Consider short-range optical communication with a **square-law** detector (SLD) at the receiver, i.e., a single photodiode performs the optical-to-electrical[^1][^2]. The standard single-mode fiber (SSMF) between transmitter and receiver causes chromatic dispersion, leading to intersymbol interference (ISI). We consider thermal noise from photodetection. The model is
+Consider short-range optical communication with a **square-law** detector (SLD) at the receiver, i.e., a single photodiode performs the optical-to-electrical conversion[^1][^2]. The standard single-mode fiber (SSMF) between transmitter and receiver causes chromatic dispersion, leading to intersymbol interference (ISI). We consider thermal noise from photodetection. The model is
 
 $$
 Y(t) =  h(t) * (\left|X(t)\right|^2 + N(t))
