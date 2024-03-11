@@ -7,10 +7,10 @@
 # * Institute for Communications Engineering (LNT)
 # * Technical University of Munich, Germany
 # * http://ice.cit.tum.de/
-# * Public version: v1.0 2024-01-17
+# * Public version: v1.1 2024-03-07
 # **************************************************
 
-vstr = "v1.0"  # Version
+vstr = "v1.1"  # Version
 
 import time
 import numpy as np
@@ -39,7 +39,7 @@ cli_args = parser.parse_args()  # Parse arguments from CLI into cli_args
 #         "4-ASK",
 #         "-S",  # Number of SIC stages
 #         "4",
-#         "-i",  # Simulate only individual stage
+#         "-s",  # Simulate only individual stage
 #         "2",
 #         "-d",  # Choose CPU for training
 #         "cpu",
@@ -58,34 +58,37 @@ modf_str, S_SIC, S_SIC_vec_1idx, dev = hlp.process_cliargs(cli_args)
 
 # * ---------- Average transmit power -------------------
 # Vary TX power; AWGN power fixed in channel() class
-Ptx_dB_vec = np.arange(-15, 48, 1)
+Ptx_dB_vec = np.arange(-5, 12, 2)
 L_snr = len(Ptx_dB_vec)  # Number of SNR steps
 
 # * -----  Differential phase precoding flag ------
-f_diff_precoding = False  # Needed for nonl_f(.) = SLD
+f_diff_precoding = True  # Needed for nonl_f(.) = SLD
 
 # Noise depending on real/complex signalling
-f_cplx_AWGN = True  # If 0: real AWGN, if 1: c.s. complex AWGN
+f_cplx_AWGN = False  # If 0: real AWGN, if 1: c.s. complex AWGN
 
 # * ---  Standard Single-Mode Fiber (SSMF) Parameters ---
-L_SSMF = 0e3  # Length [m]
+L_SSMF = 30e3  # Length [m]
 R_sym = 35 * 1e9  # Symbol rate in [Bd] or [Symb/s]
 
 # * -------  Successive Interference Cancellation  -------
 # Select L_SIC "closest" previously decoded symbols for SIC
-L_SIC = 16
+L_SIC = 32
 
 
 # * -------  Memoryless Nonlinearity -------------
 def nonl_f(x, Ptx):
     # --- Linear System  ---
-    z = x
+    # z = x
 
     # --- RX Square-Law Detector   ---
-    # z = np.abs(x) ** 2
+    z = np.abs(x) ** 2
 
     # --- TX power amplifier amplifier ---
-    # z = np.tanh(np.real(x)) + 1j*np.tanh(np.imag(x))
+    # PmaxdB = 6  # Maximum power in dBW per real and imaginary component
+    # Pmaxlin = 10 ** (PmaxdB / 10)
+    # a_sc = np.sqrt(Pmaxlin)
+    # z = a_sc * (np.tanh(np.real(x) / a_sc) + 1j * np.tanh(np.imag(x) / a_sc))
 
     # --- TX DAC with 1-bit resolution ---
     # z = np.sqrt(Ptx/2)*np.sign(np.real(x)) + 1j * np.sqrt(Ptx/2)*np.sign(np.imag(x))
@@ -115,24 +118,28 @@ def nonl_f(x, Ptx):
 
 # Layer input sizes according to the above figure
 # Note: The output size is always the modulation alphabet size M
-szNNvec = np.array([1, 100, 100])
+szNNvec = np.array([32,64,32])
 
 # NN Training parameters
-lr = 0.0001  # Learning rate
-Ni = 100000  # Number of iterations for training
-T_rnn_raw = 1  # Use approximate T_rnn inputs for training (ceil-ed later)
-n_batch = 128  # Batches for SGD: Tensor with Dimensions: nBatch x T_rnn x sz[0]
+lr = 0.01  # Learning rate
+Ni = 20000  # Number of iterations for training
+T_rnn_raw = 64  # Use approximate T_rnn inputs for training (ceil-ed later)
+n_batch = 1024  # Batches for SGD: Tensor with Dimensions: nBatch x T_rnn x sz[0]
 n = 10000  # Set approximate number of validation symbols (ceil-ed later)
-n_realz = 500  # Number of frames for verification
+n_frames = 100  # Number of frames for final verification
+
+# Training uses a learning rate (LR) scheduler. Every 'n_sched' training iterations the scheduler estimates the current rate using 'n_frames_sched_ver' frames each with 'n' symbols. If no improvement is seen for 10 subsequent calls, the learning rate is reduced by a factor of 0.3.
+n_sched = 20  # Number of training iterations after which LR scheduler is called
+n_frames_sched_ver = 1  # Number of frames for LR scheduler verification
 
 # * ------- Physical Channel ----------
 # Generate "C-Band" SSMF channel instance
-# Other channel classes may be written and passes to comsys.channel()
+# Other channel classes may be written and passed to comsys.channel()
 SSMF_chan = comsys.SSMF("C", L_SSMF, R_sym)
 # CH6_chan = comsys.CH6()
 
 N_sim = 2  # Oversampling for simulation
-d = 2  # Downsample by interger "d" after filtering with h[k]
+d = 1  # Downsample by interger "d" after filtering with h[k]
 N_os = N_sim // d  # Must be integer
 
 # * ----- Symbol-wise TX precoder (optional) -------
@@ -140,16 +147,15 @@ g_pre = np.array([1])  # No precoder
 g_pre = comsys.norm_ps(N_sim=1, filt=g_pre)  # Normalize precoder to unit energy
 
 # * ---------TX DAC FILTER g_ps[u] -------------
-tx_rolloff = 0.3
+tx_rolloff = 0.0
 # Raised-cosine pulse
-g_ps, _ = comsys.gen_ps_rrcos(N_sim=N_sim, N_span=151, alph_roll=tx_rolloff)
+g_ps, _ = comsys.gen_ps_rcos(N_sim=N_sim, N_span=151, alph_roll=tx_rolloff)
 g_ps = comsys.norm_ps(N_sim=N_sim, filt=g_ps)  # Normalize to unit energy
 
 # * --------- RX ADC FILTER h[u] -------------
-# h = [1]  # delta[k]
-rx_cutoff = 0.3  # Relative to N_sim
+h = [1]  # delta[k]
+rx_cutoff = 0.9999  # Relative to N_sim
 # RX front-end filter
-h = g_ps  # Matched filter
 # h = scipy.signal.firwin(numtaps=201, cutoff=rx_cutoff, window="boxcar")
 
 
@@ -186,12 +192,14 @@ def simulate_stage(s):
         lr=lr,
         Ni=Ni,
         n=n,
-        n_realz=n_realz,
+        n_frames=n_frames,
+        n_frames_sched_ver=n_frames_sched_ver,
         n_batch=n_batch,
         S_SIC=S_SIC,
         L_SIC=L_SIC,
         L_snr=L_snr,
         N_os=N_os,
+        N_sched=n_sched,
         T_rnn_raw=T_rnn_raw,
         S_SIC_vec_1idx=S_SIC_vec_1idx,
     )
@@ -222,7 +230,7 @@ if __name__ == "__main__":
         I_qXY_mat[i, :] = processed[kk][1]
         kk = kk + 1
 
-    filename = processed[0][2]  # Filename
+    filename = "results/ex1b_" + processed[0][2]  # Filename
     c_comp = processed[0][3]  # Complexity in no. of mult per APP estimate
 
     # Print a summary of results
