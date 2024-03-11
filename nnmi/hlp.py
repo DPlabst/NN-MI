@@ -92,6 +92,8 @@ def process_cliargs(cli_args):
     if cli_args.device is not None:
         if cli_args.device == "cuda":
             dev = "cuda:0"  # RUN on cuda:0
+        elif cli_args.device == "cuda:1":
+            dev = "cuda:1"  # RUN on cuda:1
         elif cli_args.device == "cpu":
             dev = "cpu"  # RUN on CPU
     else:
@@ -152,9 +154,9 @@ def init_cliparser():
     parser.add_argument(
         "--device",
         "-d",
-        choices=["cpu", "cuda"],
+        choices=["cpu", "cuda:0", "cuda:1"],
         type=str,
-        help="run code on cpu or cuda",
+        help="run code on cpu, cuda:0 or cuda:1",
     )
     return parser
 
@@ -168,5 +170,5 @@ def printinfo():
     print(" * Institute for Communications Engineering (LNT)")
     print(" * Technical University of Munich, Germany")
     print(" * http://ice.cit.tum.de/")
-    print(" * Public version: v1.0 2024-01-17")
+    print(" * Public version: v1.1 2024-03-07")
     print("**************************************************")
