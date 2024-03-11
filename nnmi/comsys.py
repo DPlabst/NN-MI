@@ -827,7 +827,7 @@ class SICstage:
 
         # Print back
 
-        # Last 10 SGD steps: 
+        # Last 10 SGD steps:
         plt_range = np.linspace(start=max(0, j - 10), stop=j, num=10).astype(np.int64)
         SNR_list = self.Ptx_dB_vec.tolist()
         SNR_list.insert(0, "SNR")
