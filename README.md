@@ -145,7 +145,7 @@ which outputs:
     --indiv_stage INDIV_STAGE, -s INDIV_STAGE             simulation of a single individual stage
     --device {cpu,cuda:0,cuda:1}, -d {cpu,cuda:0,cuda:1}  run code on cpu, cuda:0 or cuda:1
 
-> [!NOTE]
+> [!IMPORTANT]
 > The NN-SIC parameters are chosen to work over a wide range of SNRs. Fine-tuning the parameters based on model memory, constellation size or SNR can lead to better performance and faster training. 
 
 [^1]: D. Plabst et al., "Achievable Rates for Short-Reach Fiber-Optic Channels With Direct Detection," in *Journal of Lightwave Technology*, vol. 40, no. 12, pp. 3602-3613, 15 June15, 2022, doi: 10.1109/JLT.2022.3149574. [[Xplore]](https://ieeexplore.ieee.org/document/9707620)
