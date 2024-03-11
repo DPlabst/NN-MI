@@ -196,7 +196,7 @@ plt.plot(
 plt.text(xval - 4.4, yval, r"$\approx$ 0.45dB", color="black", fontsize=15)
 
 
-plt.ylim((0, 1.01))
+plt.ylim((0, 1.00))
 plt.xlim((-5, 20))
 
 plt.legend(("FBA-JDD", "FBA-SDD", "NN-SDD", "NN-SIC $S=4$", "Gaussian (real)"))
