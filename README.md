@@ -9,7 +9,7 @@ We provide three example applications.
 
 ## Citation
 
-The software is provided under the open-source [MIT license](https://opensource.org/licenses/M\kappa T). If you use the software in your academic work, please cite the accompanying document as follows: 
+The software is provided under the open-source [MIT license](https://opensource.org/licenses/MIT). If you use the software in your academic work, please cite the accompanying document as follows: 
 
 > D. Plabst, T. Prinz, F. Diedolo, T. Wiegart, G. Böcherer, N. Hanik, G. Kramer "Neural Network Equalizers and Successive Interference Cancellation for Bandlimited Channels with a Nonlinearity," CoRR, vol. abs/2401.09217, 2024. [Online]. Available: [https://arxiv.org/abs/2401.09217](https://arxiv.org/abs/2401.09217)
 
@@ -20,9 +20,11 @@ The corresponding BibTeX entry is: [nnmi/cite.bib](nnmi/cite.bib).
 ## Example 1: Fiber-Channel with Square-Law Detector
 
 Consider short-range optical communication with a **square-law** detector (SLD) at the receiver, i.e., a single photodiode performs the optical-to-electrical[^1][^2]. The standard single-mode fiber (SSMF) between transmitter and receiver causes chromatic dispersion, leading to intersymbol interference (ISI). We consider thermal noise from photodetection. The model is
+
 $$
 Y(t) =  h(t) * (\left|X(t)\right|^2 + N(t))
 $$
+
 with the 
 - baseband signal $X(t) = \sum_\kappa X_\kappa  g(t-\kappa T)$  and symbol period $T$
 - u.i.i.d. discrete channel inputs $X_\kappa$ from the constellation $\mathcal{A}$ 
@@ -43,9 +45,11 @@ The fiber is operated at the C band carrier 1550 nm; see [[Tab. II]](https://arx
 ## Example 2: Linear Baseband Communication with AWGN
 
 Consider linear baseband communication with AWGN. The model is
+
 $$
 Y(t) =  h(t) * \left(h_\text{ch}(t) * X(t) + N(t)\right)
 $$ 
+
 with the
 - baseband signal $X(t) = \sum_\kappa X_\kappa  g(t-\kappa T)$  and symbol period $T$
 - u.i.i.d. discrete channel inputs $X_\kappa$ from the constellation $\mathcal{A}$ 
