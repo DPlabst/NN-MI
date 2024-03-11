@@ -73,7 +73,7 @@ class SSMF:
             # Third-order dispersion [s^3/m] #C-Band
             self.beta3 = 0.12 * (1e-12) ** 3 / 1e3
 
-        elif self.band == "O":
+        elif band == "O":
             self.band = band  # "O-band"
             self.lambd_c = 1300e-9  # Carrier wavelength [m]
 
@@ -349,12 +349,14 @@ class SICstage:
         lr,
         Ni,
         n,
-        n_realz,
+        n_frames,
+        n_frames_sched_ver,
         n_batch,
         S_SIC,
         L_SIC,
         L_snr,
         N_os,
+        N_sched,
         T_rnn_raw,
         S_SIC_vec_1idx,
     ):
@@ -364,7 +366,8 @@ class SICstage:
         self.Ptx_dB_vec = Ptx_dB_vec
         self.Ni = Ni
         self.lr = lr
-        self.n_realz = n_realz
+        self.n_frames = n_frames
+        self.n_frames_sched_ver = n_frames_sched_ver
         self.n_batch = n_batch
         self.dev = dev
         self.cur_SIC = cur_SIC
@@ -373,6 +376,8 @@ class SICstage:
         self.L_SIC = L_SIC
         self.L_snr = L_snr
         self.S_SIC_vec_1idx = S_SIC_vec_1idx
+
+        self.N_sched = N_sched
 
         # * ------- Find next greater integer T_rnn to provided T_rnn_raw ---------
         # Implementation-specific for block-processing in time-varying RNNs
@@ -410,22 +415,6 @@ class SICstage:
 
         # Approximate RNN memory
         self.NtildeRNN = int(np.floor(self.szNNvecpM[0] / self.N_os) + self.T_rnn - 1)
-
-        # Reset demapper
-        self.demapper = rnn.RNNRX(
-            dev,
-            self.szNNvecpM,
-            self.T_rnn,
-            L_SIC,
-            S_SIC,
-            cur_SIC=cur_SIC,
-            f_cplx_mod=self.chan.f_cplx_mod,
-            f_cplx_AWGN=self.chan.f_cplx_AWGN,
-        )
-        self.demapper.to(dev)  # CUDA
-
-        # Define Loss, Optimizer
-        self.optimizer = torch.optim.Adam(self.demapper.parameters(), lr=lr)
 
         # * --- Index Matrices generate index matrices once and use them to select relevant NN inputs
         # Chunk index matrix of y for TRAINING
@@ -653,6 +642,29 @@ class SICstage:
         for SNR_i in range(self.L_snr):
             Ptx = 10 ** (self.Ptx_dB_vec[SNR_i] / 10)  # Linear
 
+            # Reset demapper
+            self.demapper = rnn.RNNRX(
+                self.dev,
+                self.szNNvecpM,
+                self.T_rnn,
+                self.L_SIC,
+                self.S_SIC,
+                cur_SIC=self.cur_SIC,
+                f_cplx_mod=self.chan.f_cplx_mod,
+                f_cplx_AWGN=self.chan.f_cplx_AWGN,
+            )
+            self.demapper.to(self.dev)  # CUDA
+
+            # Define Loss, Optimizer
+            self.optimizer = torch.optim.Adam(self.demapper.parameters(), lr=self.lr)
+            self.scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+                self.optimizer,
+                mode="max",
+                factor=0.3,
+            )
+
+            self.optimizer.param_groups[0]["lr"] = self.lr  # Reset LR
+
             IqXY_train_vec = np.zeros(self.Ni)
 
             # Find normalization factors over n_norm symbols
@@ -709,16 +721,30 @@ class SICstage:
                 ce.backward()
                 self.optimizer.step()
 
+                # Learning rate:
+                if j % self.N_sched == 0:
+                    _, IqXY_i_val = self.get_metrics(
+                        Ptx, y_mean, y_var, x_mean, x_var, self.n_frames_sched_ver
+                    )
+                    self.scheduler.step(IqXY_i_val)
+                    cur_lr = self.optimizer.param_groups[0]["lr"]
+                    if cur_lr < 1e-5:
+                        break
+
                 tend = time.time()  # Time needed for j iterations,
                 tsum = tsum + (
                     tend - tstart
                 )  # Only measure the training, neglect validation
 
-                if j % 300 == 0:  # Print back every ...
-                    self.printprogress(I_qXY_vec, tsum, SNR_i, IqXY_train_vec, j)
+                if j % self.N_sched == 0:  # Print back every ...
+                    self.printprogress(
+                        I_qXY_vec, tsum, SNR_i, IqXY_train_vec, j, cur_lr
+                    )
 
             # Compute validation metrics
-            SER_i, IqXY_i = self.get_metrics(Ptx, y_mean, y_var, x_mean, x_var)
+            SER_i, IqXY_i = self.get_metrics(
+                Ptx, y_mean, y_var, x_mean, x_var, self.n_frames
+            )
 
             SER_vec[SNR_i] = SER_i
             I_qXY_vec[SNR_i] = IqXY_i
@@ -726,11 +752,11 @@ class SICstage:
         return SER_vec, I_qXY_vec, self.gen_filename(), self.complexity_rnn()
 
     # * -------- NN Validation --------
-    def get_metrics(self, Ptx, y_mean, y_var, x_mean, x_var):
-        SER_vec_realz = np.zeros(self.n_realz)
-        IqXY_vec_realz = np.zeros(self.n_realz)
+    def get_metrics(self, Ptx, y_mean, y_var, x_mean, x_var, n_frames):
+        SER_vec_realz = np.zeros(n_frames)
+        IqXY_vec_realz = np.zeros(n_frames)
 
-        for i in range(self.n_realz):
+        for i in range(n_frames):
             # Create new data for evaluation
             # Scale modulation alphabet depending on SNR (b ydefinition, we keep the noise power constant)
             idx_u, _, x, y = self.chan.simulate(self.n_verif_p_stage, Ptx)
@@ -786,6 +812,7 @@ class SICstage:
         SNR_i,
         IqXY_train_vec,
         j,
+        cur_lr,  # current learning rate
     ):
         # Estimator for remaining simulation time
         delta_t = tsum / ((j + 1) + self.Ni * (SNR_i))
@@ -799,7 +826,9 @@ class SICstage:
         c_mult = self.complexity_rnn()
 
         # Print back
-        plt_range = np.linspace(start=max(0, j - 200), stop=j, num=10).astype(np.int64)
+
+        # Last 10 SGD steps: 
+        plt_range = np.linspace(start=max(0, j - 10), stop=j, num=10).astype(np.int64)
         SNR_list = self.Ptx_dB_vec.tolist()
         SNR_list.insert(0, "SNR")
         Rate_list = I_qXY_vec[0:SNR_i].tolist()
@@ -842,6 +871,7 @@ class SICstage:
             "Last SGD: "
             + np.array_str(IqXY_train_vec[plt_range], precision=3, suppress_small=True)
         )
+        print("LR: " + str(cur_lr))
 
     # Generate filename for saving results
     def gen_filename(
@@ -897,7 +927,7 @@ class SICstage:
             + "{:.1E}".format(self.Ni)  # Number of iterations
             + fsep
             + "V="
-            + "{:.1E}".format(self.n_realz)  # Number of frames
+            + "{:.1E}".format(self.n_frames)  # Number of frames
             + fsep
             + "n="
             + "{:.1E}".format(self.n_verif_p_stage)  # Number of symbols per frame
