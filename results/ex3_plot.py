@@ -47,9 +47,9 @@ plt.plot(SNRdB, 1 / 2 * np.log2(1 + SNRdBlin), "k-", linewidth="0.5")
 plt.legend(
     (
         "Linear",
-        "SDD, $N_\mathrm{os}=1$, $P_\mathrm{max}= 9\mathrm{dBW}$",
-        "SDD, $N_\mathrm{os}=4$, $P_\mathrm{max} = 9\mathrm{dBW}$",
-        "$S=2$, $N_\mathrm{os}=4$, $P_\mathrm{max}= 9\mathrm{dBW}$",
+        "SDD, $N_\mathrm{os}=1$, $P_\mathrm{max}= 7\mathrm{dBW}$",
+        "SDD, $N_\mathrm{os}=4$, $P_\mathrm{max} = 7\mathrm{dBW}$",
+        "$S=2$, $N_\mathrm{os}=4$, $P_\mathrm{max}= 7\mathrm{dBW}$",
         "Gaussian",
     ),
 )
@@ -61,8 +61,8 @@ plt.xlim((-5, 30))
 plt.ylim((0, 2))
 
 plt.title(
-    r"$4$-ASK, Baseband Communication System with AWGN and TANH Transmit Power Amplifier",
-    fontsize=11,
+    r"$4$-ASK, Baseband Communication with AWGN and Nonlinear Transmit Power Amplifier",
+    fontsize=12,
 )
 
 plt.savefig("png/ex3.png", dpi=500)

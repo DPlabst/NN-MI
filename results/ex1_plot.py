@@ -28,7 +28,7 @@ for j in np.arange(len(filename)):
 
 ax1.legend(
     (
-        "$I_{q,\mathrm{SIC}}(\mathcal{X};\mathcal{Y})$",
+        "SIC",
         "SDD",
         "Stage 2",
         "Stage 3",
@@ -62,7 +62,7 @@ SNRdB = MATj[:, 0]
 
 ax2.legend(
     (
-        "$I_{q,\mathrm{SIC}}(\mathcal{X};\mathcal{Y})$",
+        "SIC",
         "SDD",
         "Stage 2",
         "Stage 3",
@@ -77,7 +77,7 @@ ax2.grid(1)
 
 fig.tight_layout()
 fig.subplots_adjust(top=0.84)
-fig.suptitle(r"Square-Law Detection: SIC $S=4$, 4-ASK, TX DAC: SINC", fontsize=16)
+fig.suptitle(r"Square-Law Detection: SIC $S=4$, 4-ASK, TX DAC: SINC", fontsize=12)
 
 plt.savefig("png/ex1.png", dpi=500)
 plt.show()

@@ -123,7 +123,7 @@ fig.tight_layout()
 fig.subplots_adjust(top=0.84)
 fig.suptitle(
     r"Linear: SDD: $S=1$,TX DAC: RRC, roll-off $\alpha=0.3$, RX: Matched filter",
-    fontsize=14,
+    fontsize=12,
 )
 
 plt.savefig("png/ex2a.png", dpi=500)
