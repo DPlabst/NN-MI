@@ -193,7 +193,7 @@ plt.plot(
     linewidth="1.0",
     markersize="3",
 )
-plt.text(xval - 5.8, yval, r"$\approx$ 0.45dB", color="black", fontsize=15)
+plt.text(xval - 5.4, yval, r"$\approx$ 0.45dB", color="black", fontsize=15)
 
 
 plt.ylim((0, 1.00))
