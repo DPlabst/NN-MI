@@ -202,7 +202,7 @@ plt.subplots_adjust(left=0.25, right=0.75, top=0.9, bottom=0.15) #Add whitespace
 
 plt.legend(("FBA-JDD", "FBA-SDD", "NN-SDD", "NN-SIC $S=4$", "Gaussian (real)"))
 
-plt.title("CH6 Channel h[k] = [0.19, 0.35, 0.46, 0.5, 0.46, 0.35, 0.19]")
+plt.title("CH6 Channel")
 plt.ylabel("Rate [bpcu]")
 plt.xlabel("SNR [dB]")
 plt.grid(1)
