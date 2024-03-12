@@ -62,7 +62,7 @@ plt.xlim((-5, 30))
 plt.ylim((0, 2))
 
 plt.title(
-    r"$4$-ASK, Baseband Communication with Nonlinear Transmit Amplifier",
+    r"Baseband Communication with Nonlinear Transmit Amplifier",
     fontsize=12,
 )
 

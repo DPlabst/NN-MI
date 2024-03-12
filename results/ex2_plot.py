@@ -122,7 +122,7 @@ ax2.set_title(r"Complex Modulation")
 fig.tight_layout()
 fig.subplots_adjust(top=0.84)
 fig.suptitle(
-    r"Linear: SDD: $S=1$,TX DAC: RRC, roll-off $\alpha=0.3$, RX: Matched filter",
+    r"Linear Baseband Communication with SDD, TX DAC: RRC, roll-off $\alpha=0.3$, RX: Matched-filter",
     fontsize=12,
 )
 
