@@ -132,7 +132,6 @@ plt.savefig("png/ex2a.png", dpi=500)
 # --------------
 # --------------
 
-plt.rcParams["figure.figsize"] = [6, 4]
 plt.figure(2)
 
 filename = [""] * 5
@@ -194,11 +193,12 @@ plt.plot(
     linewidth="1.0",
     markersize="3",
 )
-plt.text(xval - 4.4, yval, r"$\approx$ 0.45dB", color="black", fontsize=15)
+plt.text(xval - 6.4, yval, r"$\approx$ 0.45dB", color="black", fontsize=15)
 
 
 plt.ylim((0, 1.00))
 plt.xlim((-5, 20))
+plt.subplots_adjust(left=0.2, right=0.8, top=0.9, bottom=0.15) #Add whitespace
 
 plt.legend(("FBA-JDD", "FBA-SDD", "NN-SDD", "NN-SIC $S=4$", "Gaussian (real)"))
 

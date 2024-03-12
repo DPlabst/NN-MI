@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt  # for debugging
 ## Helper for visualization of plots
 
 plt.rcParams["text.usetex"] = True
-plt.rcParams["figure.figsize"] = [6, 4]
+plt.rcParams["figure.figsize"] = [8, 4]
 plt.rcParams.update({"font.size": 9})
 
 
@@ -57,6 +57,7 @@ plt.legend(
 plt.ylabel("Rate [bpcu]")
 plt.xlabel("SNR [dB]")
 plt.grid(1)
+plt.subplots_adjust(left=0.2, right=0.8, top=0.9, bottom=0.15) #Add whitespace
 plt.xlim((-5, 30))
 plt.ylim((0, 2))
 
