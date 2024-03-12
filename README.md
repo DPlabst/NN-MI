@@ -91,7 +91,7 @@ This model often describes magnetic recording channels. The program [ex2b_nnmi.p
 
 ![Example 2b](png/ex2b.png) 
 
-## Example 3: Baseband Communication with AWGN and Nonlinear Transmit Power Amplifier
+## Example 3: Baseband Communication with Nonlinear Power Amplifier
 
 Consider baseband communication with AWGN
 
