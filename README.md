@@ -6,7 +6,7 @@ The code computes achievable information rates under successive interference can
 
 We provide three example applications.
 
-> [!IMPORTANT]
+> [!TIP]
 > The NN parameters have been chosen to work over a wide range of SNRs. Fine-tuning the parameters based on model memory, constellation size or SNR can lead to better performance and faster training.
 
 ## Citation
