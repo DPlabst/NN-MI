@@ -6,6 +6,8 @@ The code computes achievable information rates under successive interference can
 
 We provide three example applications.
 
+> [!IMPORTANT]
+> The NN parameters have been chosen to work over a wide range of SNRs. Fine-tuning the parameters based on model memory, constellation size or SNR can lead to better performance and faster training.
 
 ## Citation
 
@@ -19,7 +21,7 @@ The corresponding BibTeX entry is: [nnmi/cite.bib](nnmi/cite.bib).
 
 ## Example 1: Fiber-Channel with Square-Law Detector
 
-Consider short-range optical communication with a **square-law** detector (SLD) at the receiver, i.e., a single photodiode performs the optical-to-electrical conversion[^1][^2]. The standard single-mode fiber (SSMF) between transmitter and receiver causes chromatic dispersion, leading to intersymbol interference (ISI). We consider thermal noise from photodetection. The model is
+Consider short-range optical communication with a _square-law_ detector (SLD) at the receiver, i.e., a single photodiode performs the optical-to-electrical conversion[^1][^2]. The standard single-mode fiber (SSMF) between transmitter and receiver causes chromatic dispersion, leading to intersymbol interference (ISI). We consider thermal noise from photodetection. The model is
 
 $$
 Y(t) =  h(t) * (\left|X(t)\right|^2 + N(t))
@@ -32,12 +34,13 @@ with the
 - filter $h(t)$ that models linear effects at the receiver
 - real white Gaussian noise $N(t)$.
 
-The SLD doubles the signal bandwidth. Thus the receive filter $h(t)$ is chosen as a brickwall filter with twice the bandwidth of $X(t)$. We oversample $Y(t)$ to obtain sufficient statistics. These samples are passed to the NN-SIC receiver. Due to the receiver squaring operation $|\cdot|^2$, symbol detection becomes a phase retrieval problem. 
+The SLD doubles the signal bandwidth. We use a low-pass filter $h(t)$ with twice the bandwidth of $X(t)$. We oversample $Y(t)$ to obtain sufficient statistics. The samples are passed to the NN-SIC receiver. Due to the receiver squaring operation $|\cdot|^2$, symbol detection becomes a phase retrieval problem. 
 
+We compare two setups.
 - [ex1a_nnmi.py](ex1a_nnmi.py) computes information rates for back-to-back configuration (without fiber).
-- [ex1b_nnmi.py](ex1b_nnmi.py) computes information rates for 30 km SSMF.
+- [ex1b_nnmi.py](ex1b_nnmi.py) computes information rates for 30 km of SSMF.
 
-The fiber is operated at the C band carrier 1550 nm; see [[Tab. II]](https://arxiv.org/pdf/2401.09217.pdf). The DAC is operated at a symbol rate of 35 GBd and performs sinc pulseshaping. We use 4-ASK modulation with constellation $\mathcal{A} = \left\lbrace\pm 1, \pm 3\right\rbrace$. The example considers NN-SIC with four stages and plots stage rates for $s=1,\ldots,4$ and the average rate across all stages (red). The noise variance is set to $\sigma^2 = 1$ and we vary the average transmit power $P_\text{tx}$. Hence SNR $= P_\text{tx}$. 
+The fiber is operated at the C band carrier 1550 nm; see [[Tab. II]](https://arxiv.org/abs/2401.09217v1). The DAC is operated at a symbol rate of 35 GBd and performs sinc pulseshaping. We use 4-ASK modulation with constellation $\mathcal{A} = \left\lbrace\pm 1, \pm 3\right\rbrace$. The example program considers NN-SIC with four stages and plots stage rates for $s=1,\ldots,4$ and the average rate across all stages (red). The noise variance is set to $\sigma^2 = 1$ and we vary the average transmit power $P_\text{tx}$. Hence SNR $= P_\text{tx}$. 
 
 ![Example 1](png/ex1.png)
 
@@ -53,7 +56,7 @@ $$
 with the
 - baseband signal $X(t) = \sum_\kappa X_\kappa  g(t-\kappa T)$  and symbol period $T$
 - u.i.i.d. discrete channel inputs $X_\kappa$ from the constellation $\mathcal{A}$ 
-- RRC filter $g(t)$ with roll-off factor $\alpha$ for transmit pulseshaping
+- RRC filter $g(t)$ with roll-off factor $\alpha$ as the DAC response 
 - frequency-selective channel $h_\text{ch}(t)$
 - RRC receive matched-filter $h(t)$ 
 - circularly-symmetric (c.s.) complex white Gaussian noise $N(t)$.
@@ -80,16 +83,15 @@ Y[\kappa] = (X * h)[\kappa] + N[\kappa]
 $$
 
 with the 
-- discrete filter $(h_\kappa)_{\kappa=-3}^{3} = (0.19, 0.35, 0.46, 0.5, 0.46, 0.35, 0.19)$
+- discrete channel $(h_\kappa)_{\kappa=-3}^{3} = (0.19, 0.35, 0.46, 0.5, 0.46, 0.35, 0.19)$
 - u.i.i.d. discrete channel inputs $X_\kappa$ from the BPSK constellation $\mathcal{A} = \lbrace\pm 1\rbrace$ 
 - real AWGN $N_\kappa$.
 
-This model often describes magnetic recording channels. The program [ex2b_nnmi.py](ex2b_nnmi.py) uses NN-SIC to calculate the achievable rates. We compare the results with the exact information rates calculated with the forward-backward algorithm (FBA)[^4]. The NN-SDD rates are within 0.1 dB of the FBA reference and NN-SIC with $S=4$ stages is very close to the JDD rate. The JDD rate can be approached by increasing the number of SIC steps. 
+This model often describes magnetic recording channels. The program [ex2b_nnmi.py](ex2b_nnmi.py) uses NN-SIC to calculate the achievable rates. We compare the results with the _exact_ information rates calculated with the forward-backward algorithm (FBA)[^4]. The NN-SDD rates are within 0.1 dB of the FBA reference and NN-SIC with $S=4$ stages is very close to the JDD rate. The JDD rate can be approached by increasing the number of SIC steps. 
 
 ![Example 2b](png/ex2b.png) 
 
 ## Example 3: Baseband Communication with AWGN and Nonlinear Transmit Power Amplifier
-
 
 Consider baseband communication with AWGN
 
@@ -99,23 +101,22 @@ $$
 
 where the real baseband signal $X(t)$ passes through a nonlinear power amplifier (PA)
 
-$$f(x) = \sqrt{P_\mathrm{max}} \cdot
-   \tanh\left( \frac{x}{\sqrt{P_\mathrm{max}}} \right)
+$$
+f(x) = \sqrt{P_\mathrm{max}} \cdot \tanh\left( \frac{x}{\sqrt{P_\mathrm{max}}} \right)
 $$
 
 with peak output power $P_\mathrm{max}$. The parameters are the 
 - baseband signal $X(t) = \sum_\kappa X_\kappa  g(t-\kappa T)$  and symbol period $T$
 - u.i.i.d. discrete channel inputs $X_\kappa$ from the constellation $\mathcal{A}$  
-- RRC filter $g(t)$ with roll-off factor $\alpha$ that performs transmit pulseshaping (DAC)
+- RRC filter $g(t)$ with roll-off factor $\alpha$ that models the DAC
 - receive filter $h(t)$ 
 - real-valued white Gaussian noise $N(t)$.
 
-We compare: 
-- [ex3a_nnmi.py](ex3a_nnmi.py) performs matched-filtering, symbol-rate sampling and SDD. 
+We compare two setups. 
+- [ex3a_nnmi.py](ex3a_nnmi.py) performs receiver matched-filtering, symbol-rate sampling and SDD. 
 - [ex3b_nnmi.py](ex3b_nnmi.py) uses a brickwall receive filter $h(t)$ with cutoff frequency $2/T$ and performs 4-fold oversampling with SIC. 
 
-We consider 4-ASK modulation, set the noise variance $\sigma^2 = 1$ and vary the average transmit power $P_\text{tx}$ before the PA. We define $\mathrm{SNR} = P_\text{tx}$. Achievable information rates are plotted without PA constraints (blue curve) and 7 dBW transmit peak power. For higher transmit powers, $f(x)$ significantly broadens the transmit signal spectrum and oversampling with SIC increases information rates.
-
+We consider 4-ASK modulation, set the noise variance $\sigma^2 = 1$ and vary the average transmit power $P_\text{tx}$ before the PA. We define SNR = $P_\text{tx}$. Achievable information rates are plotted without PA constraints (blue) and 7 dBW transmit peak power. For higher transmit powers, the PA significantly broadens the transmit signal spectrum and oversampling with SIC increases information rates.
 
 ![Example 3](png/ex3.png)
 
@@ -126,7 +127,7 @@ One may execute the examples providing command line parameters:
 
     python exN_nnmi.py -m 4-ASK -S 4
 
-where one must replace `N` by `[1a,1b,2a,3a,3b]` to choose the example of interest. The prompt example computes achievable information rates for $S=4$ SIC stages and 4-ASK modulation, and saves the result as a CSV file. The CSV file lists the rates pre stage and the average rate under SIC.
+where one must replace `N` by `[1a,1b,2a,3a,3b]` to choose the example of interest. The prompt example computes achievable information rates for 4-ASK modulation and $S=4$ SIC stages, and saves the result as a CSV file. The CSV file lists the rates pre stage and the average rate under SIC.
 
 Further options can be found by executing: 
 
@@ -144,9 +145,6 @@ which outputs:
     --mod_format MOD_FORMAT, -m MOD_FORMAT                M-ASK, M-PAM, M-SQAM (star-QAM), M-QAM (square) modulation with order M
     --indiv_stage INDIV_STAGE, -s INDIV_STAGE             simulation of a single individual stage
     --device {cpu,cuda:0,cuda:1}, -d {cpu,cuda:0,cuda:1}  run code on cpu, cuda:0 or cuda:1
-
-> [!IMPORTANT]
-> The NN-SIC parameters are chosen to work over a wide range of SNRs. Fine-tuning the parameters based on model memory, constellation size or SNR can lead to better performance and faster training. 
 
 [^1]: D. Plabst et al., "Achievable Rates for Short-Reach Fiber-Optic Channels With Direct Detection," in *Journal of Lightwave Technology*, vol. 40, no. 12, pp. 3602-3613, 15 June15, 2022, doi: 10.1109/JLT.2022.3149574. [[Xplore]](https://ieeexplore.ieee.org/document/9707620)
 
