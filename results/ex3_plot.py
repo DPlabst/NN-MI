@@ -57,7 +57,7 @@ plt.legend(
 plt.ylabel("Rate [bpcu]")
 plt.xlabel("SNR [dB]")
 plt.grid(1)
-plt.subplots_adjust(left=0.2, right=0.8, top=0.9, bottom=0.15) #Add whitespace
+plt.subplots_adjust(left=0.25, right=0.75, top=0.9, bottom=0.15) #Add whitespace
 plt.xlim((-5, 30))
 plt.ylim((0, 2))
 
