@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt  # for debugging
 ## Helper for visualization of plots
 
 plt.rcParams["text.usetex"] = True
-plt.rcParams["figure.figsize"] = [8, 4]
+plt.rcParams["figure.figsize"] = [6, 4]
 plt.rcParams.update({"font.size": 9})
 
 
@@ -61,7 +61,7 @@ plt.xlim((-5, 30))
 plt.ylim((0, 2))
 
 plt.title(
-    r"$4$-ASK, Baseband Communication with AWGN and Nonlinear Transmit Power Amplifier",
+    r"$4$-ASK, Baseband Communication with Nonlinear Transmit Amplifier",
     fontsize=12,
 )
 

@@ -132,6 +132,7 @@ plt.savefig("png/ex2a.png", dpi=500)
 # --------------
 # --------------
 
+plt.rcParams["figure.figsize"] = [6, 4]
 plt.figure(2)
 
 filename = [""] * 5
