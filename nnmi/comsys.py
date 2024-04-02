@@ -347,7 +347,7 @@ class SICstage:
         Ptx_dB_vec,
         szNNvec,
         lr,
-        Ni,
+        Nimax,
         n,
         n_frames,
         n_frames_sched_ver,
@@ -364,7 +364,7 @@ class SICstage:
 
         self.vstr = vstr  # Version
         self.Ptx_dB_vec = Ptx_dB_vec
-        self.Ni = Ni
+        self.Nimax = Nimax
         self.lr = lr
         self.n_frames = n_frames
         self.n_frames_sched_ver = n_frames_sched_ver
@@ -665,7 +665,7 @@ class SICstage:
 
             self.optimizer.param_groups[0]["lr"] = self.lr  # Reset LR
 
-            IqXY_train_vec = np.zeros(self.Ni)
+            IqXY_train_vec = np.zeros(self.Nimax)
 
             # Find normalization factors over n_norm symbols
             n_norm = int(20e3)
@@ -681,7 +681,7 @@ class SICstage:
             x_var = np.var(np.sqrt(Ptx) * self.chan.Xalph)
 
             # Train over Ni batches
-            for j in range(self.Ni):
+            for j in range(self.Nimax):
                 tstart = time.time()
                 idx_u, _, x, y = self.chan.simulate(self.n_train_p_stage, Ptx)
 
@@ -815,8 +815,8 @@ class SICstage:
         cur_lr,  # current learning rate
     ):
         # Estimator for remaining simulation time
-        delta_t = tsum / ((j + 1) + self.Ni * (SNR_i))
-        eta_s = delta_t * (self.Ni * self.L_snr - ((j + 1) + self.Ni * (SNR_i)))
+        delta_t = tsum / ((j + 1) + self.Nimax * (SNR_i))
+        eta_s = delta_t * (self.Nimax * self.L_snr - ((j + 1) + self.Nimax * (SNR_i)))
         eta_d = int(eta_s / (24 * 3600))  # ETA days
 
         # ETA formated in d:X HH:MM:SS
@@ -838,7 +838,7 @@ class SICstage:
         print("Filename: \t" + self.gen_filename())
         print("Stage: \t\t" + str(self.cur_SIC) + "/" + str(self.S_SIC))
         print("Eta stage: \t" + "d:" + str(eta_d) + " " + eta_hms)
-        print("Iter.: \t\t" + str(j) + "/" + str(self.Ni))
+        print("Iter.: \t\t" + str(j) + "/" + str(self.Nimax))
         print(
             "Eff. train: \t"
             + str(self.n_train_p_stage * (self.S_SIC - self.cur_SIC + 1) / self.S_SIC)
@@ -924,7 +924,7 @@ class SICstage:
             + str(self.L_SIC)  # Number of SIC symbols
             + fsep
             + "I="
-            + "{:.1E}".format(self.Ni)  # Number of iterations
+            + "{:.1E}".format(self.Nimax)  # Number of iterations
             + fsep
             + "V="
             + "{:.1E}".format(self.n_frames)  # Number of frames

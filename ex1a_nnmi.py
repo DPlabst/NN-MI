@@ -122,7 +122,7 @@ szNNvec = np.array([32, 32])
 
 # NN Training parameters
 lr = 0.02  # Learning rate
-Ni = 30000  # Number of iterations for training
+Nimax = 30000  # Maximum number of iterations for training
 T_rnn_raw = 36  # Use approximate T_rnn inputs for training (ceil-ed later)
 n_batch = 512  # Batches for SGD: Tensor with Dimensions: nBatch x T_rnn x sz[0]
 n = 10000  # Set approximate number of validation symbols (ceil-ed later)
@@ -190,7 +190,7 @@ def simulate_stage(s):
         Ptx_dB_vec=Ptx_dB_vec,
         szNNvec=szNNvec,
         lr=lr,
-        Ni=Ni,
+        Nimax=Nimax,
         n=n,
         n_frames=n_frames,
         n_frames_sched_ver=n_frames_sched_ver,
