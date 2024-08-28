@@ -1,6 +1,7 @@
 # NN-MI: Neural Network Achievable Information Rate Computation for Channels with Memory
 
-This repository contains the program code for the paper "Neural Network Equalizers and Successive Interference Cancellation for Bandlimited Channels with a Nonlinearity", submitted to the *IEEE Transactions on Communications* on January 11, 2024. A preprint of the submission is [available](https://arxiv.org/abs/2401.09217).
+This repository contains the program code for the paper "Neural Network-Based Successive Interference Cancellation for Non-Linear Bandlimited Channels", which was accepted to the *IEEE Transactions on Communications* on 11 August, 2024. A preprint of the accepted verison is [available](https://arxiv.org/abs/2401.09217). 
+
 
 The code computes achievable information rates under successive interference cancellation (SIC). At each SIC stage a recurrent NN estimates (conditional) a-posteriori probabilities.
 
@@ -13,8 +14,7 @@ We provide three example applications.
 
 The software is provided under the open-source [MIT license](https://opensource.org/licenses/MIT). If you use the software in your academic work, please cite the accompanying document as follows: 
 
-> D. Plabst, T. Prinz, F. Diedolo, T. Wiegart, G. Böcherer, N. Hanik, G. Kramer "Neural Network Equalizers and Successive Interference Cancellation for Bandlimited Channels with a Nonlinearity," CoRR, vol. abs/2401.09217, 2024. [Online]. Available: [https://arxiv.org/abs/2401.09217](https://arxiv.org/abs/2401.09217)
-
+> D. Plabst, T. Prinz, F. Diedolo, T. Wiegart, G. Böcherer, N. Hanik and G. Kramer, "Neural Network-Based Successive Interference Cancellation for Non-Linear Bandlimited Channels," IEEE Trans. Commun., *to appear*. Available: [https://arxiv.org/abs/2401.09217](https://arxiv.org/abs/2401.09217)
 
 The corresponding BibTeX entry is: [nnmi/cite.bib](nnmi/cite.bib).
 
@@ -146,13 +146,13 @@ which outputs:
     --indiv_stage INDIV_STAGE, -s INDIV_STAGE             simulation of a single individual stage
     --device {cpu,cuda:0,cuda:1}, -d {cpu,cuda:0,cuda:1}  run code on cpu, cuda:0 or cuda:1
 
-[^1]: D. Plabst et al., "Achievable Rates for Short-Reach Fiber-Optic Channels With Direct Detection," in *Journal of Lightwave Technology*, vol. 40, no. 12, pp. 3602-3613, 15 June15, 2022, doi: 10.1109/JLT.2022.3149574. [[Xplore]](https://ieeexplore.ieee.org/document/9707620)
+[^1]: D. Plabst, Tobias Prinz, Thomas Wiegart, Talha Rahman, Nebojša Stojanović, Stefano Calabrò, Norbert Hanik and Gerhard Kramer, "Achievable Rates for Short-Reach Fiber-Optic Channels With Direct Detection," in *J. Lightw. Technol.*, vol. 40, no. 12, pp. 3602-3613, 15 June15, 2022, doi: 10.1109/JLT.2022.3149574. [[Xplore]](https://ieeexplore.ieee.org/document/9707620)
 
-[^2]: T. Prinz, D. Plabst, T. Wiegart, S. Calabrò, N. Hanik and G. Kramer, "Successive Interference Cancellation for Bandlimited Channels with Direct Detection," in *IEEE Transactions on Communications*, to appear. [[Xplore]](https://ieeexplore.ieee.org/document/10328977)
+[^2]: T. Prinz, D. Plabst, T. Wiegart, S. Calabrò, N. Hanik and G. Kramer, "Successive Interference Cancellation for Bandlimited Channels with Direct Detection," in *IEEE Trans. Commun.*, vol. 72, no. 3, pp. 1330-1340, March 2024, doi: 10.1109/TCOMM.2023.3337254.  [[Xplore]](https://ieeexplore.ieee.org/document/10328977)
 
-[^3]: G. D. Forney and G. Ungerboeck, "Modulation and coding for linear Gaussian channels," in IEEE Transactions on Information Theory, vol. 44, no. 6, pp. 2384-2415, Oct. 1998, doi: 10.1109/18.720542.  [[Xplore]](https://ieeexplore.ieee.org/document/720542)
+[^3]: G. D. Forney and G. Ungerboeck, "Modulation and coding for linear Gaussian channels," in IEEE Trans. Inf. Theory, vol. 44, no. 6, pp. 2384-2415, Oct. 1998, doi: 10.1109/18.720542.  [[Xplore]](https://ieeexplore.ieee.org/document/720542)
 
-[^4]: D. M. Arnold, H. . -A. Loeliger, P. O. Vontobel, A. Kavcic and W. Zeng, "Simulation-Based Computation of Information Rates for Channels With Memory," in IEEE Transactions on Information Theory, vol. 52, no. 8, pp. 3498-3508, Aug. 2006, doi: 10.1109/TIT.2006.878110. [[Xplore]](https://ieeexplore.ieee.org/document/1661831)
+[^4]: D. M. Arnold, H.-A. Loeliger, P. O. Vontobel, A. Kavcic and W. Zeng, "Simulation-Based Computation of Information Rates for Channels With Memory," in IEEE Trans. Inf. Theory, vol. 52, no. 8, pp. 3498-3508, Aug. 2006, doi: 10.1109/TIT.2006.878110. [[Xplore]](https://ieeexplore.ieee.org/document/1661831)
 
 
 ## Software Requirements 
