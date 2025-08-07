@@ -1,6 +1,6 @@
 # NN-MI: Neural Network Achievable Information Rate Computation for Channels with Memory
 
-This repository contains the program code for the paper "Neural Network-Based Successive Interference Cancellation for Non-Linear Bandlimited Channels", which was accepted to the *IEEE Transactions on Communications* on 11 August, 2024. A preprint of the accepted journal version is [available](https://arxiv.org/abs/2401.09217). A shorter conference version is also [available](https://www.arxiv.org/abs/2408.15767).
+This repository contains the program code for the paper "Neural Network-Based Successive Interference Cancellation for Non-Linear Bandlimited Channels", which was accepted to the *IEEE Transactions on Communications* on 11 August, 2024. The accepted journal version is [available](https://ieeexplore.ieee.org/document/10663733). A shorter conference version is also [available](https://ieeexplore.ieee.org/document/10619487).
 
 
 The code computes achievable information rates under successive interference cancellation (SIC). At each SIC stage a recurrent NN estimates (conditional) a-posteriori probabilities.
@@ -14,7 +14,7 @@ We provide three example applications.
 
 The software is provided under the open-source [MIT license](https://opensource.org/licenses/MIT). If you use the software in your academic work, please cite the accompanying document as follows: 
 
-> D. Plabst, T. Prinz, F. Diedolo, T. Wiegart, G. Böcherer, N. Hanik and G. Kramer, "Neural Network-Based Successive Interference Cancellation for Non-Linear Bandlimited Channels," IEEE Trans. Commun., *to appear*. Available: [https://arxiv.org/abs/2401.09217](https://arxiv.org/abs/2401.09217)
+> D. Plabst, T. Prinz, F. Diedolo, T. Wiegart, G. Böcherer, N. Hanik and G. Kramer, "Neural Network-Based Successive Interference Cancellation for Non-Linear Bandlimited Channels," IEEE Trans. Commun., vol. 73, no. 3, pp. 1847-1861, March 2025, doi: 10.1109/TCOMM.2024.3454026.  Available: [https://ieeexplore.ieee.org/document/10663733](https://ieeexplore.ieee.org/document/10663733)
 
 The corresponding BibTeX entry is: [nnmi/cite.bib](nnmi/cite.bib).
 
