@@ -1,4 +1,4 @@
-# NN-MI: Neural Network Achievable Information Rate Computation for Channels with Memory
+# nn-mi: Neural Network Achievable Information Rate Computation for Channels with Memory
 
 This repository contains the program code for the paper "Neural Network-Based Successive Interference Cancellation for Non-Linear Bandlimited Channels", which was accepted to the *IEEE Transactions on Communications* on 11 August, 2024. The accepted journal version is [available](https://ieeexplore.ieee.org/document/10663733). A shorter conference version is also [available](https://ieeexplore.ieee.org/document/10619487).
 
